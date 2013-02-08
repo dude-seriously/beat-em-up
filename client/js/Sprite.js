@@ -26,12 +26,16 @@
 	BeatEmUp.Sprite.prototype.SetLocation = function (x, y) {
 		this.x = x;
 		this.y = y;
+
+		return this;
 	}
 
 	BeatEmUp.Sprite.prototype.Draw = function (context, x, y) {
 		if (this.spritesheet.complete) {
 			context.drawImage(this.spritesheet, this.current_frame*this.dw, this.row*this.dh, this.dw, this.dh, this.x - cameraX + this.ox, this.y - cameraY + this.oy, this.dw, this.dh);
 		}
+
+		return this;
 	}
 
 	BeatEmUp.Sprite.prototype.IsAnimating = function () {
@@ -43,11 +47,15 @@
 	        this.animating = true;
 	        this.Animate();
 		}
+
+		return this;
 	}
 
 	BeatEmUp.Sprite.prototype.StopAnimation = function () {
 		this.animating = false;
 		clearTimeout(this.timeout);
+
+		return this;
 	}
 
 	BeatEmUp.Sprite.prototype.Animate = function () {
@@ -92,5 +100,6 @@
 		} else {
 			this.current_frame = 0;
 		}
+		return this;
 	}
 })(window.BeatEmUp = window.BeatEmUp || {} , jQuery);
