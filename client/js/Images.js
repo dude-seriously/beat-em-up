@@ -1,21 +1,17 @@
 ;(function (BeatEmUp) {
 
-	var url ="/images/";
+	var url ="images/";
 	var ext = ".png";
 
 	var load_img = function (filename) {
 		var img = new Image();
-		img.src = url + filename + png;
+		img.src = url + filename + ext;
 		return img;
 	}
 
 	BeatEmUp.Images = {
 
-		monsterImage: load_img("monster"),
-		
-		ballImage: load_img("ball"),
-
-		weaponImage: load_img("weapon")
+		dudeWalk: load_img("dude-walk")
 
 	}
 

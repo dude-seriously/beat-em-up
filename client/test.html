@@ -2,18 +2,25 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 		<script src="js/lib/underscore-min.js"></script>
 		<script src="js/lib/backbone-min.js"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+
 		<script src="js/Debug.js"></script>
+
+		<script src="js/Images.js"></script>
+		<script src="js/Sprite.js"></script>
 		<script src="js/Player.js"></script>
+
 		<link rel="stylesheet" href="css/qunit.css">
 	</head>
 	<body>
 		<div id="qunit"></div>
 		<div id="qunit-fixture"></div>
+		<canvas id="mycanvas" width="500" height="500" style="border: 1px dotted black"></canvas>
 		<script src="js/lib/qunit.js"></script>
 		<script>
+		BeatEmUp.enableDebug(true);
 			module("Player Model");
 			test("Main", function () {
 				var my_model = new BeatEmUp.PlayerModel({id: 123, x: 2, y: 0});
@@ -29,6 +36,56 @@
 				ok(!my_model.set({id: "sdf"}), "Did not allow me to set string ID");
 				ok(my_model.set({id: 123}), "Changed id to 123");
 			})
+
+			module("Player View");
+
+			test("Main", function () {
+				var my_model = new BeatEmUp.PlayerModel({id: 123, x: 2, y: 0});
+				var my_view = new BeatEmUp.PlayerView({model: my_model});
+				ok(true, "Created view");
+			});
+
+			module("Sprite");
+			test("Main", function() {
+				var my_sprite = new BeatEmUp.Sprite();
+				ok(true, "Created Sprite");
+				equal(my_sprite.IsAnimating(), false, "Sprite is not animating");
+				ok(my_sprite.StartAnimation().IsAnimating(), "Started animation and is animating");
+				ok(!my_sprite.StopAnimation().IsAnimating(), "Stopped animation and is not animating");
+			});
+
+			module("Canvas");
+			test("Drawing", function () {
+				var canvas = document.getElementById("mycanvas");
+
+				var ctx = canvas.getContext("2d");
+
+				var interval = 1000/60;
+
+				window.my_model = new BeatEmUp.PlayerModel({
+					id: 123,
+					x: 100,
+					y: 100,
+					speed: 1
+				});
+
+				var my_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.dudeWalk, 100, 100, 58, 74, 0, 100, 3, 0, 0);
+
+				var my_view = new BeatEmUp.PlayerView({
+					model: my_model,
+					sprite: my_sprite,
+					context: ctx
+
+				});
+
+				ok(true, "Set up objects");
+				setInterval(function () {
+					my_model.walkToDestination();
+					canvas.width = canvas.width;
+					my_view.render();
+				}, interval);
+
+			});
 		</script>
 	</body>
 </html>

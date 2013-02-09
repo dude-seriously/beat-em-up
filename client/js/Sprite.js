@@ -4,8 +4,6 @@
 		this.spritesheet = spritesheet;
 		this.x = dx;	// Destination x
 		this.y = dy;	// Destination y
-		this.ox = dx;
-		this.oy = dy;
 		this.dw = dw;	// Width of the frame
 		this.dh = dh;	// Height of the frame
 		this.row = row;	// Row in spritesheet
@@ -30,10 +28,10 @@
 		return this;
 	}
 
-	BeatEmUp.Sprite.prototype.Draw = function (context, x, y) {
-		if (this.spritesheet.complete) {
-			context.drawImage(this.spritesheet, this.current_frame*this.dw, this.row*this.dh, this.dw, this.dh, this.x - cameraX + this.ox, this.y - cameraY + this.oy, this.dw, this.dh);
-		}
+	BeatEmUp.Sprite.prototype.Draw = function (context) {
+		// BeatEmUp.debug("Drawing sprite " + this.spritesheet.src + " at " + this.x + ':' +this.y, "Sprite");
+		
+		context.drawImage(this.spritesheet, this.current_frame*this.dw, this.row*this.dh, this.dw, this.dh, this.x, this.y, this.dw, this.dh);
 
 		return this;
 	}
@@ -55,6 +53,11 @@
 		this.animating = false;
 		clearTimeout(this.timeout);
 
+		return this;
+	}
+
+	BeatEmUp.Sprite.prototype.ResetAnimation = function () {
+		this.current_frame = 0;
 		return this;
 	}
 
