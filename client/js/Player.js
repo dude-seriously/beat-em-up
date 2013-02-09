@@ -60,6 +60,12 @@
 
 			var s = this.get("speed");
 
+			if (x != dx || y != dy) {
+				this.set({walking: true});
+			} else {
+				this.set({walking: false});
+			}
+
 			this.set({'x': dx, 'y': dy});
 
 
@@ -127,6 +133,7 @@
 
 		handleWalkState: function () {
 			if (this.model.get("walking")) {
+				clearTimeout(this.timeout);
 				this.sprite.StartAnimation();
 			} else {
 				this.sprite.StopAnimation().ResetAnimation();
