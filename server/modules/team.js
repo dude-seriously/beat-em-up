@@ -16,18 +16,20 @@ var teamCount = 0;
       this.id = ++teamCount;
       this.name = data.name;
       this.color = colors[this.name] ? colors[this.name] : 'gray';
-      this.points = 0;
+      this.score = 0;
+      this.x = data.x;
+      this.y = data.y;
     },
     data: function(full) {
       if (full) {
         return {
           name: this.name,
           color: this.color,
-          points: this.points
+          score: this.score
         }
       } else {
         return {
-          points: this.points
+          score: this.score
         }
       }
     }

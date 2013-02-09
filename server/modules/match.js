@@ -32,10 +32,14 @@ var tick = 1000 / ups;
 
         this.world = new World(3000, 200);
         this.world.teams.add(new Team({
-          name: 'red'
+          name: 'red',
+          x: 100,
+          y: 100
         }));
         this.world.teams.add(new Team({
-          name: 'green'
+          name: 'green',
+          x: 900,
+          y: 100
         }));
 
         this.players = new PlayerList();
@@ -52,8 +56,8 @@ var tick = 1000 / ups;
 
           var player = new Player({
             user: user,
-            x: 100,
-            y: 100
+            x: user.team.x,
+            y: user.team.y
           });
           player.on('death', function() {
             return self.playerDeath(this);
@@ -131,8 +135,8 @@ var tick = 1000 / ups;
       if (player.user.online) {
         var player = new Player({
           user: player.user,
-          x: 100,
-          y: 100
+          x: player.user.team.x,
+          y: player.user.team.y
         });
         player.on('death', function() {
           return self.playerDeath(this);

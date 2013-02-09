@@ -54,6 +54,7 @@ exports.init = function(io) {
       this.input = { };
       this.team = null;
       this.online = true;
+      this.score = 0;
 
       /*var self = this;
       this.socket.on('disconnect', function() {

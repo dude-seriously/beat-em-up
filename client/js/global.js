@@ -2,6 +2,22 @@ console.log('global');
 
 var socket = io.connect();
 
+var teams = { };
+function Team(data) {
+  this.id = data.id;
+  this.color = data.color;
+  this.score = data.score;
+}
+
+var users = { };
+function User(data) {
+  this.id = data.id;
+  this.name = data.name;
+  this.team = data.team;
+  this.score = data.score;
+  users[this.id] = this;
+}
+
 socket.on('connect', function() {
   console.log('connected')
 
@@ -49,9 +65,38 @@ socket.on('connect', function() {
     }
     */
 
-    for(var id in data.players) {
-      $('body').append('<div class="player" id="player' + id + '" style="background:' + data.teams[data.users[data.players[id].user].team].color + '"><div class="health"><div></div></div><div class="face"></div><div class="kick"></div></div>');
+    for(var id in data.teams) {
+      var team = new Team({
+        id: id,
+        color: data.teams[id].color,
+        score: data.teams[id].score
+      });
     }
+
+    for(var id in data.users) {
+      var user = new User({
+        id: id,
+        name: data.users[id].name,
+        team: teams[data.users[id].team]
+      });
+    }
+
+    for(var id in data.players) {
+      var player = new Player({
+        id: id,
+        user: users[data.players[id].user],
+        x: data.players[id].x,
+        y: data.players[id].y,
+        sp: data.players[id].sp,
+        hp: data.players[id].hp,
+        state: data.players[id].state,
+        f: data.players[id].f
+      });
+    }
+
+    /*for(var id in data.players) {
+      $('body').append('<div class="player" id="player' + id + '" style="background:' + data.teams[data.users[data.players[id].user].team].color + '"><div class="health"><div></div></div><div class="face"></div><div class="kick"></div></div>');
+    }*/
 
     console.log('match');
     console.log(JSON.stringify(data));
@@ -169,23 +214,23 @@ socket.on('connect', function() {
       left: data.x,
       top: data.y,
     }).children('> .health');
-    console.log('player.spawn');
-    console.log(JSON.stringify(data));
+    //console.log('player.spawn');
+    //console.log(JSON.stringify(data));
   });
 
 
   // when player dies
   // need to change state of player
   socket.on('player.death', function(id) {
-    console.log('player.death');
-    console.log(id);
+    //console.log('player.death');
+    //console.log(id);
     $('#player' + id).remove();
   });
 
 
   // identify which player is controlled by user
   socket.on('player.own', function(id) {
-    console.log('player.own');
-    console.log(id);
+    //console.log('player.own');
+    //console.log(id);
   });
 });

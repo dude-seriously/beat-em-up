@@ -72,7 +72,7 @@ var playerCount = 0;
               if (world.time - this.lastHit > this.hitDelay) {
                 this.kick = this.user.input.kick;
                 this.lastHit = world.time;
-                this.hitDelay = 500 * this.kick;
+                this.hitDelay = 300 * this.kick;
               }
             }
           }
@@ -159,14 +159,24 @@ var playerCount = 0;
           for(var pId in this.container) {
             if (id != pId) {
               var victim  = this.container[pId];
-              if (Math.abs(victim.pos[1] - player.pos[1]) < 20) {
-                if (player.f == 1) {
-                  if (victim.pos[0] - player.pos[0] > -16 && victim.pos[0] - player.pos[0] < 56) {
-                    victim.hit(50);
+              if (victim.user.team != player.user.team) {
+                if (Math.abs(victim.pos[1] - player.pos[1]) < 20) {
+                  var hit = false;
+                  if (player.f == 1) {
+                    if (victim.pos[0] - player.pos[0] > -24 && victim.pos[0] - player.pos[0] < 56) {
+                      hit = true;
+                    }
+                  } else {
+                    if (player.pos[0] - victim.pos[0] > -24 && player.pos[0] - victim.pos[0] < 56) {
+                      hit = true;
+                    }
                   }
-                } else {
-                  if (player.pos[0] - victim.pos[0] > -16 && player.pos[0] - victim.pos[0] < 56) {
-                    victim.hit(50);
+                  if (hit) {
+                    victim.hit(player.kick * 10 + 10);
+                    if (victim.dead) {
+                      player.user.score += 1;
+                      player.user.team.score += 1;
+                    }
                   }
                 }
               }
