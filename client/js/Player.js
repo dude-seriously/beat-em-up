@@ -19,7 +19,7 @@
 			}
 
 			if (attr.x < 0 || attr.y < 0) {
-				return "Invalid coordinates (x: " + attr.x + ", y: " + attr.y);
+				return "Invalid coordinates (x: " + attr.x + ", y: " + attr.y + ')';
 			}
 
 			if (typeof attr.x != "number" || typeof attr.y != "number") {
