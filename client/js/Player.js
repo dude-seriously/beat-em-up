@@ -26,8 +26,8 @@
 		},
 
 		validate: function (attr, options) {
-			if (attr.id < 0 || typeof attr.id != "number") {
-				return "Invalid ID (" + attr.id + ")";
+			if (attr.id < 0) {
+				return "Invalid ID (" + attr.id + ", type" + (typeof attr.id) + ")";
 			}
 
 			if (attr.x < 0 || attr.y < 0) {

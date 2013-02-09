@@ -21,4 +21,4 @@
             }
         }
     }
-})(window.BeatEmUp = window.BeatEmup || {}, jQuery);
+})(window.BeatEmUp = window.BeatEmUp || {}, jQuery);

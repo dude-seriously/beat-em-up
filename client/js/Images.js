@@ -17,4 +17,4 @@
 
 	}
 
-})(window.BeatEmUp || {});
+})(window.BeatEmUp = window.BeatEmUp || {});

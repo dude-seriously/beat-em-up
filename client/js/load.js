@@ -35,10 +35,7 @@ var scripts = [
     file: '/socket.io/socket.io.js'
   }, {
     name: 'Images',
-    file: '/js/Images.js',
-    requires: [
-      'Debug'
-    ]
+    file: '/js/Images.js'
   }, {
     name: 'Debug',
     file: '/js/Debug.js',
