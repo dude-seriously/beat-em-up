@@ -38,7 +38,7 @@ var tick = 1000 / ups;
         }));
         this.world.teams.add(new Team({
           name: 'green',
-          x: 900,
+          x: 400,
           y: 100
         }));
 

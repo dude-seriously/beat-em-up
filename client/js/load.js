@@ -122,12 +122,11 @@ new ScriptLoader({
   scripts: scripts,
   step: function() {
     var progress = Math.floor((this.loaded / this.total) * 100);
-    console.log('loading: ' + progress + '%');
+   // console.log('loading: ' + progress + '%');
   },
   error: function() {
     console.error('error loading scripts');
   },
   complete: function() {
-    console.log('scripts loaded');
   }
 });

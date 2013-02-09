@@ -1,7 +1,5 @@
 ;(function (BeatEmUp) {
 
-	console.log("IMAGEZZZZZZ");
-
 	var url ="images/";
 	var ext = ".png";
 

@@ -27,6 +27,7 @@ var playerCount = 0;
     update: function(world) {
       try {
         if (!this.dead) {
+          this.state = '';
           if (this.user.input) {
             // apply moving input
             if (this.user.input.move) {
@@ -38,6 +39,7 @@ var playerCount = 0;
                 this.vec[1] = this.user.input.move.y;
                 this.vec.norm();
                 this.vec.scale(this.sp);
+                this.state = 'walk';
               }
             }
           }

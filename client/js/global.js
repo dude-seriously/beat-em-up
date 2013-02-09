@@ -1,5 +1,3 @@
-console.log('global');
-
 var socket = io.connect();
 
 var teams = { };
@@ -19,9 +17,6 @@ function User(data) {
 }
 
 socket.on('connect', function() {
-  console.log('connected')
-
-
   // when in lobby
   // get updates of players in lobby and how many needed for game
   socket.on('lobby', function(data) {
@@ -101,7 +96,6 @@ socket.on('connect', function() {
 
     BeatEmUp.enableDebug(true);
     for(var id in data.players) {
-      console.log(BeatEmUp);
       var my_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.dudeWalk, data.players[id].x, data.players[id].y, 58, 74, 0, 100, 3, 0, 0);
 
 
