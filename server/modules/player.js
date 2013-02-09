@@ -27,13 +27,13 @@ var playerCount = 0;
     update: function(world) {
       try {
         if (!this.dead) {
-          this.state = '';
           if (this.user.input) {
             // apply moving input
             if (this.user.input.move) {
               if (this.user.input.move.x == 0 && this.user.input.move.y == 0) {
                 this.vec[0] = 0;
                 this.vec[1] = 0;
+                this.state = '';
               } else {
                 this.vec[0] = this.user.input.move.x;
                 this.vec[1] = this.user.input.move.y;
