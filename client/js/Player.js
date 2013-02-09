@@ -60,31 +60,34 @@
 
 			var s = this.get("speed");
 
-			if (x != dx || y != dy) {
+			this.set({'x': dx, 'y': dy});
 
-				if (x != dx) {
-					if (Math.abs(x-dx)<s) {
-						this.set({'x': dx});
-					} else if (x < dx) {
-						this.set({'x': x + s});
-					} else {
-						this.set({'x': x - s});
-					}
-				}
 
-				if (y != dy) {
-					if (Math.abs(y-dy)<s) {
-						this.set({'y': dy});
-					} else if (y < dy) {
-						this.set({'y': y + s});
-					} else {
-						this.set({'y': y - s});
-					}
-				}
-				this.set({walking: true});
-			} else {
-				this.set({walking: false});
-			}
+			// if (x != dx || y != dy) {
+
+			// 	if (x != dx) {
+			// 		if (Math.abs(x-dx)<s) {
+			// 			this.set({'x': dx});
+			// 		} else if (x < dx) {
+			// 			this.set({'x': x + s});
+			// 		} else {
+			// 			this.set({'x': x - s});
+			// 		}
+			// 	}
+
+			// 	if (y != dy) {
+			// 		if (Math.abs(y-dy)<s) {
+			// 			this.set({'y': dy});
+			// 		} else if (y < dy) {
+			// 			this.set({'y': y + s});
+			// 		} else {
+			// 			this.set({'y': y - s});
+			// 		}
+			// 	}
+			// 	this.set({walking: true});
+			// } else {
+			// 	this.set({walking: false});
+			// }
 		}
 	});
 
