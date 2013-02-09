@@ -1,5 +1,6 @@
 require(process.cwd() + '/modules/user');
 require(process.cwd() + '/modules/player');
+require(process.cwd() + '/modules/world');
 
 exports.init = function(io) {
 
@@ -21,12 +22,13 @@ var tick = 1000 / ups;
           self.removePlayers(user);
         }
       });
-      //this.world = new World();
+      this.world = null;
       this.players = null;
       this.timer = null;
     },
     start: function() {
       if (!this.timer) {
+        this.world = new World(3000, 200);
         this.players = new PlayerList();
         for(var id in this.users.all()) {
           this.players.add(new Player({
@@ -34,6 +36,7 @@ var tick = 1000 / ups;
           }));
         }
         this.users.pub('match', {
+          world: this.world.data(),
           users: this.users.data(),
           players: this.players.data(true)
         })
@@ -44,10 +47,34 @@ var tick = 1000 / ups;
       if (this.timer) {
         clearInterval(this.timer);
         this.timer = null;
+
+        this.users.pub('match.end', {
+
+        });
+
+        this.users.clear();
+        this.users = null;
+        this.players.clear();
+        this.players = null;
       }
     },
     // game loop
     update: function() {
+
+      for(var id in this.users.all()) {
+        var user = this.users.get(id);
+        if (user.input) {
+          for(var pId in this.players.all()) {
+            var player = this.players.get(pId);
+            if (player.user == user) {
+              player.input = user.input;
+            }
+          }
+        }
+      }
+
+      this.users.update();
+      this.players.update(this.world);
 
       var state = {
         players: this.players.data()

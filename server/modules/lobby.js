@@ -7,14 +7,21 @@ exports.init = function(io) {
   });
 }
 
+var matchSize = 1;
+
 var Lobby = new Class({
   initialize: function() {
     this.users = new UserList();
   },
   add: function(user) {
     this.users.add(user);
-    if (this.users.count == 2) {
+    if (this.users.count == matchSize) {
       this.match();
+    } else {
+      this.users.pub('lobby', {
+        users: this.users.count,
+        match: matchSize
+      });
     }
   },
   match: function() {
@@ -22,8 +29,8 @@ var Lobby = new Class({
     for(var id in this.users.all()) {
       match.userAdd(this.users.get(id));
     }
-    match.start();
     this.users.clear();
+    match.start();
   }
 });
 

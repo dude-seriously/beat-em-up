@@ -3,3 +3,10 @@ body {
   background: #323232;
   color: #eee;
 }
+
+.player {
+  position: absolute;
+  width: 32px;
+  height: 64px;
+  background: #06d;
+}

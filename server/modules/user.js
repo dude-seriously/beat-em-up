@@ -12,6 +12,18 @@ exports.init = function(io) {
       }
     });
 
+    socket.on('input', function(data) {
+      var user = getUser(socket);
+      try {
+        if (data.move && data.move.x != undefined && data.move.y != undefined) {
+          user.addInput('move', {
+            x: parseFloat(data.move.x),
+            y: parseFloat(data.move.y)
+          });
+        }
+      } catch(ex) { }
+    });
+
     /*socket.on('setName', function(data) {
       var user = getUser(this);
       if (data.name && data.name.length >= 4 && data.name <= 12 && /^[a-z][a-z0-9_-]+$/i.test(data.name)) {
@@ -33,6 +45,7 @@ exports.init = function(io) {
       this.name = 'guest';
       this.socket = socket;
       this.lists = { };
+      this.input = { };
 
       /*var self = this;
       this.socket.on('disconnect', function() {
@@ -40,6 +53,15 @@ exports.init = function(io) {
       });*/
 
       users[this.id] = this;
+    },
+    addInput: function(name, data) {
+      if (!this.input) {
+        this.input = { };
+      }
+      this.input[name] = data;
+    },
+    update: function() {
+      this.input = null;
     },
     setName: function(name) {
       this.name = name;
@@ -81,6 +103,11 @@ exports.init = function(io) {
       this.count = 0;
       this.container = { };
     },
+    update: function() {
+      for(var id in this.container) {
+        this.container[id].update();
+      }
+    },
     add: function(user) {
       this.container[user.id] = user;
       user.listAdd(this);
@@ -107,6 +134,7 @@ exports.init = function(io) {
       }
     },
     clear: function() {
+      this.count = 0;
       for(var id in this.container) {
         this.container[id].listRemove(this);
       }

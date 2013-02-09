@@ -3,13 +3,21 @@ var scripts = [
     name: 'jquery',
     file: '/js/jquery.js'
   }, {
-    name: 'global',
-    file: '/js/global.js',
+    name: 'input',
+    file: '/js/input.js',
     requires: [
       'jquery'
     ]
   }, {
-    name: 'socket.io',
+    name: 'global',
+    file: '/js/global.js',
+    requires: [
+      'jquery',
+      'input',
+      'sockets'
+    ]
+  }, {
+    name: 'sockets',
     file: '/socket.io/socket.io.js'
   }
 ];
