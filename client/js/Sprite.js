@@ -1,4 +1,4 @@
-;(function (BeatEmUp, $, undefined) {
+;(function (BeatEmUp, undefined) {
 
 	BeatEmUp.Sprite = function (spritesheet, dx, dy, dw, dh, row, interval, frames, pingpong, loops, callback) {
 		this.spritesheet = spritesheet;
@@ -105,4 +105,4 @@
 		}
 		return this;
 	}
-})(window.BeatEmUp = window.BeatEmUp || {} , jQuery);
+})(window.BeatEmUp = window.BeatEmUp || {});
