@@ -14,7 +14,21 @@ var scripts = [
     requires: [
       'jquery',
       'input',
-      'sockets'
+      'sockets',
+      'Debug',
+      'Sprite',
+      'Player',
+      'Images'
+    ]
+  }, {
+    name: 'underscore',
+    file: '/js/lib/underscore-min.js'
+  }, {
+    name: 'backbone',
+    file: '/js/lib/backbone-min.js',
+    requires: [
+      'jquery',
+      'underscore'
     ]
   }, {
     name: 'sockets',
