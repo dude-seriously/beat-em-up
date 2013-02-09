@@ -60,11 +60,11 @@
 
 			var s = this.get("speed");
 
-			if (x != dx || y != dy) {
-				this.set({walking: true});
-			} else {
-				this.set({walking: false});
-			}
+			// if (x != dx || y != dy) {
+			// 	this.set({walking: true});
+			// } else {
+			// 	this.set({walking: false});
+			// }
 
 			this.set({'x': dx, 'y': dy});
 

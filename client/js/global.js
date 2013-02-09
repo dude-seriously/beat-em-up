@@ -179,6 +179,8 @@ socket.on('connect', function() {
         state: p.state
       });
 
+      model.set({walking: (p.state == "walk")});
+
       //var player = data.players[id];
 
       // $('#player' + id).css({
