@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<script src="js/lib/underscore-min.js"></script>
+		<script src="js/lib/backbone-min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+		<script src="js/Debug.js"></script>
+		<script src="js/Player.js"></script>
+		<link rel="stylesheet" href="css/qunit.css">
+	</head>
+	<body>
+		<div id="qunit"></div>
+		<div id="qunit-fixture"></div>
+		<script src="js/lib/qunit.js"></script>
+		<script>
+			module("Player Model");
+			test("Main", function () {
+				var my_model = new BeatEmUp.PlayerModel({id: 123, x: 2, y: 0});
+
+				equal(123, my_model.get("id"), "Getting of id works");
+				equal(2, my_model.getCoordinates().x, "Getting of coordinates");
+			});
+
+			test("Validation", function () {
+				var my_model = new BeatEmUp.PlayerModel({id: 123, x: 2, y: 0});
+
+				ok(!my_model.set({id: -123}), "Did not allow me to set negative ID");
+				ok(!my_model.set({id: "sdf"}), "Did not allow me to set string ID");
+				ok(my_model.set({id: 123}), "Changed id to 123");
+			})
+		</script>
+	</body>
+</html>
