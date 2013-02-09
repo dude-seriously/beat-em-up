@@ -15,10 +15,10 @@ var scripts = [
       'jquery',
       'input',
       'sockets',
-      'Images',
       'Debug',
       'Sprite',
-      'Player'
+      'Player',
+      'Images'
     ]
   }, {
     name: 'underscore',
@@ -35,7 +35,10 @@ var scripts = [
     file: '/socket.io/socket.io.js'
   }, {
     name: 'Images',
-    file: '/js/Images.js'
+    file: '/js/Images.js',
+    requires: [
+      'Debug'
+    ]
   }, {
     name: 'Debug',
     file: '/js/Debug.js',
@@ -44,7 +47,10 @@ var scripts = [
     ]
   }, {
     name: 'Sprite',
-    file: '/js/Sprite.js'
+    file: '/js/Sprite.js',
+    require: [
+      'Debug'
+    ]
   }, {
     name: 'Player',
     file: '/js/Player.js',

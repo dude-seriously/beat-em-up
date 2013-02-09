@@ -1,5 +1,7 @@
 ;(function (BeatEmUp) {
 
+	console.log("IMAGEZZZZZZ");
+
 	var url ="images/";
 	var ext = ".png";
 
@@ -15,4 +17,4 @@
 
 	}
 
-})(window.BeatEmUp = window.BeatEmUp || {});
+})(window.BeatEmUp || {});

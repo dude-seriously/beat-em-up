@@ -1,5 +1,4 @@
 ;(function (BeatEmUp, undefined) {
-
 	BeatEmUp.Sprite = function (spritesheet, dx, dy, dw, dh, row, interval, frames, pingpong, loops, callback) {
 		this.spritesheet = spritesheet;
 		this.x = dx;	// Destination x
@@ -105,4 +104,4 @@
 		}
 		return this;
 	}
-})(window.BeatEmUp = window.BeatEmUp || {});
+})(window.BeatEmUp || {});

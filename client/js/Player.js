@@ -102,6 +102,7 @@
 			if (typeof attributes.model == "object") {
 				this.model.on("change", this.handleChange, this);
 				this.model.on("change:walking", this.handleWalkState, this);
+				this.model.on("change:facing", this.handleFacing, this)
 			} else {
 				BeatEmUp.debug("Init Error: Did not assign model to PlayerView", "PlayerView");
 				return false;
@@ -124,13 +125,16 @@
 		handleWalkState: function () {
 			if (this.model.get("walking")) {
 				this.sprite.StartAnimation();
-				if (this.model.get("destination_x") < this.model.get("x")) {
-					this.sprite.row = 1;
-				} else {
-					this.sprite.row = 0;
-				}
 			} else {
 				this.sprite.StopAnimation().ResetAnimation();
+			}
+		},
+
+		handleFacing: function () {
+			if (this.model.get("facing") == 1) {
+				this.sprite.row = 0
+			} else {
+				this.sprite.row = 1;
 			}
 		},
 

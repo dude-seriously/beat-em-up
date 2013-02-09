@@ -33,6 +33,22 @@ socket.on('connect', function() {
     console.log(JSON.stringify(data));
   });
 
+  var PlayerModels = {};
+  var PlayerViews = {};
+
+  var GameLoop = function () {
+    for (var id in PlayerModels) {
+      PlayerModels[id].walkToDestination();
+    }
+
+    c = document.getElementById("game");
+
+    c.width = c.width;
+
+    for (var id in PlayerViews) {
+      PlayerViews[id].render();
+    }
+  }
 
   // at the beginning of match
   // all data to update users list and players
@@ -81,18 +97,34 @@ socket.on('connect', function() {
       });
     }
 
+    var ctx = document.getElementById("game").getContext("2d");
+
+    BeatEmUp.enableDebug(true);
     for(var id in data.players) {
-      var player = new Player({
+      console.log(BeatEmUp);
+      var my_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.dudeWalk, data.players[id].x, data.players[id].y, 58, 74, 0, 100, 3, 0, 0);
+
+
+      PlayerModels[id]  = new BeatEmUp.PlayerModel({
         id: id,
         user: users[data.players[id].user],
         x: data.players[id].x,
         y: data.players[id].y,
-        sp: data.players[id].sp,
+        speed: data.players[id].sp,
         hp: data.players[id].hp,
         state: data.players[id].state,
-        f: data.players[id].f
+        facing: data.players[id].f
       });
+
+      PlayerViews[id] = new BeatEmUp.PlayerView({
+        model: PlayerModels[id],
+        sprite: my_sprite,
+        context: ctx
+      });
+
     }
+
+    setInterval(GameLoop, 1000/60);
 
     /*for(var id in data.players) {
       $('body').append('<div class="player" id="player' + id + '" style="background:' + data.teams[data.users[data.players[id].user].team].color + '"><div class="health"><div></div></div><div class="face"></div><div class="kick"></div></div>');
@@ -141,47 +173,60 @@ socket.on('connect', function() {
     */
 
     for(var id in data.players) {
-      var player = data.players[id];
-      $('#player' + id).css({
-        left: Math.floor(player.x / 4) * 4,
-        top: Math.floor(player.y / 4) * 4
-      }).children('.face').css({
-        left: player.f == 1 ? 42 : 0
+      var model = PlayerModels[id];
+      var p = data.players[id];
+
+      model.set({
+        destination_x: p.x,
+        destination_y: p.y,
+        speed: p.sp,
+        facing: p.f,
+        hp: p.hp,
+        state: p.state
       });
 
-      $('#player' + id + ' > .health > div').css({
-        width: player.hp + '%'
-      });
+      //var player = data.players[id];
 
-      if (new Date().getTime() - lastHit > 400) {
-        $('#player' + id + ' > .kick').css('display', 'none');
-      }
-      if (player.kick) {
-        lastHit = new Date().getTime();
-        switch(player.kick) {
-          case 1:
-            $('#player' + id + ' > .kick').css({
-              display: 'block',
-              top: 16,
-              left: player.f == 1 ? 42 : 0
-            })
-            break;
-          case 2:
-            $('#player' + id + ' > .kick').css({
-              display: 'block',
-              top: 32,
-              left: player.f == 1 ? 42 : 0
-            })
-            break;
-          case 3:
-            $('#player' + id + ' > .kick').css({
-              display: 'block',
-              top: 8,
-              left: player.f == 1 ? 42 : 0
-            })
-            break;
-        }
-      }
+      // $('#player' + id).css({
+      //   left: Math.floor(player.x / 4) * 4,
+      //   top: Math.floor(player.y / 4) * 4
+      // }).children('.face').css({
+      //   left: player.f == 1 ? 42 : 0
+      // });
+
+      // $('#player' + id + ' > .health > div').css({
+      //   width: player.hp + '%'
+      // });
+
+      // if (new Date().getTime() - lastHit > 400) {
+      //   $('#player' + id + ' > .kick').css('display', 'none');
+      // }
+      // if (player.kick) {
+      //   lastHit = new Date().getTime();
+      //   switch(player.kick) {
+      //     case 1:
+      //       $('#player' + id + ' > .kick').css({
+      //         display: 'block',
+      //         top: 16,
+      //         left: player.f == 1 ? 42 : 0
+      //       })
+      //       break;
+      //     case 2:
+      //       $('#player' + id + ' > .kick').css({
+      //         display: 'block',
+      //         top: 32,
+      //         left: player.f == 1 ? 42 : 0
+      //       })
+      //       break;
+      //     case 3:
+      //       $('#player' + id + ' > .kick').css({
+      //         display: 'block',
+      //         top: 8,
+      //         left: player.f == 1 ? 42 : 0
+      //       })
+      //       break;
+      //   }
+      // }
     }
 
     // for(var id in data.players) {
