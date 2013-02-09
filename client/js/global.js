@@ -27,8 +27,13 @@ socket.on('connect', function() {
       height: 0
     }
     // id based list
+    teams: {
+      name: '',
+      color: '',
+      points: 0
+    }
+    // id based list
     data.users = {
-      id: '',
       name: ''
     }
     // id based list
@@ -37,6 +42,7 @@ socket.on('connect', function() {
       id: 0,
       x: 0,
       y: 0,
+      f: [1, -1],
       state: '',
       sp: 0,
       hp: 0
@@ -44,7 +50,7 @@ socket.on('connect', function() {
     */
 
     for(var id in data.players) {
-      $('body').append('<div class="player" id="player' + id + '"></div>');
+      $('body').append('<div class="player" id="player' + id + '" style="background:' + data.teams[data.users[data.players[id].user].team].color + '"><div class="health"><div></div></div><div class="face"></div><div class="kick"></div></div>');
     }
 
     console.log('match');
@@ -69,11 +75,16 @@ socket.on('connect', function() {
   });
 
 
+  var lastHit = new Date().getTime();
+
   // on every ups as update
   // have list of players
   socket.on('state', function(data) {
     /*
     // id based list
+    data.teams = {
+      points: 0
+    }
     data.players = {
       id: 0,
       x: 0,
@@ -85,10 +96,47 @@ socket.on('connect', function() {
     */
 
     for(var id in data.players) {
+      var player = data.players[id];
       $('#player' + id).css({
-        left: Math.floor(data.players[id].x / 4) * 4,
-        top: Math.floor(data.players[id].y / 4) * 4
+        left: Math.floor(player.x / 4) * 4,
+        top: Math.floor(player.y / 4) * 4
+      }).children('.face').css({
+        left: player.f == 1 ? 42 : 0
       });
+
+      $('#player' + id + ' > .health > div').css({
+        width: player.hp + '%'
+      });
+
+      if (new Date().getTime() - lastHit > 400) {
+        $('#player' + id + ' > .kick').css('display', 'none');
+      }
+      if (player.kick) {
+        lastHit = new Date().getTime();
+        switch(player.kick) {
+          case 1:
+            $('#player' + id + ' > .kick').css({
+              display: 'block',
+              top: 16,
+              left: player.f == 1 ? 42 : 0
+            })
+            break;
+          case 2:
+            $('#player' + id + ' > .kick').css({
+              display: 'block',
+              top: 32,
+              left: player.f == 1 ? 42 : 0
+            })
+            break;
+          case 3:
+            $('#player' + id + ' > .kick').css({
+              display: 'block',
+              top: 8,
+              left: player.f == 1 ? 42 : 0
+            })
+            break;
+        }
+      }
     }
 
     // for(var id in data.players) {
@@ -116,6 +164,11 @@ socket.on('connect', function() {
     data.sp = 0
     data.hp = 0
     */
+    $('body').append('<div class="player" id="player' + data.id + '" style="background:blue"><div class="health"><div></div></div><div class="face"></div><div class="kick"></div></div>');
+    $('#player' + data.id).css({
+      left: data.x,
+      top: data.y,
+    }).children('> .health');
     console.log('player.spawn');
     console.log(JSON.stringify(data));
   });
@@ -126,6 +179,7 @@ socket.on('connect', function() {
   socket.on('player.death', function(id) {
     console.log('player.death');
     console.log(id);
+    $('#player' + id).remove();
   });
 
 

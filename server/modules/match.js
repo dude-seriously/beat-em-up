@@ -28,18 +28,53 @@ var tick = 1000 / ups;
     },
     start: function() {
       if (!this.timer) {
+        var self = this;
+
         this.world = new World(3000, 200);
+        this.world.teams.add(new Team({
+          name: 'red'
+        }));
+        this.world.teams.add(new Team({
+          name: 'green'
+        }));
+
         this.players = new PlayerList();
+        var odd = true;
         for(var id in this.users.all()) {
-          this.players.add(new Player({
-            user: this.users.get(id)
-          }));
+          var user = this.users.get(id);
+
+          odd = !odd;
+          if (odd) {
+            user.team = this.world.teams.getByName('red');
+          } else {
+            user.team = this.world.teams.getByName('green');
+          }
+
+          var player = new Player({
+            user: user,
+            x: 100,
+            y: 100
+          });
+          player.on('death', function() {
+            return self.playerDeath(this);
+          });
+          this.players.add(player);
         }
         this.users.pub('match', {
-          world: this.world.data(),
-          users: this.users.data(),
+          world: this.world.data(true),
+          teams: this.world.teams.data(true),
+          users: this.users.data(true),
           players: this.players.data(true)
-        })
+        });
+        for(var id in this.users.all()) {
+          var user = this.users.get(id);
+          for(var pId in this.players.all()) {
+            var player = this.players.get(pId);
+            if (player.user == user) {
+              user.send('player.own', player.id);
+            }
+          }
+        }
         this.timer = setInterval(this.update.bind(this), ups);
       }
     },
@@ -60,23 +95,12 @@ var tick = 1000 / ups;
     },
     // game loop
     update: function() {
-
-      for(var id in this.users.all()) {
-        var user = this.users.get(id);
-        if (user.input) {
-          for(var pId in this.players.all()) {
-            var player = this.players.get(pId);
-            if (player.user == user) {
-              player.input = user.input;
-            }
-          }
-        }
-      }
-
-      this.users.update();
+      this.world.update();
       this.players.update(this.world);
+      this.users.update();
 
       var state = {
+        teams: this.world.teams.data(),
         players: this.players.data()
       }
 
@@ -96,6 +120,27 @@ var tick = 1000 / ups;
         if (player.user.id == user.id) {
           player.kill();
         }
+      }
+    },
+    playerDeath: function(player) {
+      var self = this;
+
+      this.players.remove(player);
+      this.users.pub('player.death', player.id);
+
+      if (player.user.online) {
+        var player = new Player({
+          user: player.user,
+          x: 100,
+          y: 100
+        });
+        player.on('death', function() {
+          return self.playerDeath(this);
+        });
+        this.players.add(player);
+
+        this.users.pub('player.spawn', player.data(true));
+        player.user.send('player.own', player.id);
       }
     }
   });

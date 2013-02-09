@@ -21,6 +21,12 @@ exports.init = function(io) {
             y: parseFloat(data.move.y)
           });
         }
+        if (data.kick && typeof(data.kick) == 'number') {
+          var kick = parseInt(data.kick);
+          if (kick >= 1 && kick <= 3) {
+            user.addInput('kick', kick);
+          }
+        }
       } catch(ex) { }
     });
 
@@ -46,6 +52,8 @@ exports.init = function(io) {
       this.socket = socket;
       this.lists = { };
       this.input = { };
+      this.team = null;
+      this.online = true;
 
       /*var self = this;
       this.socket.on('disconnect', function() {
@@ -82,6 +90,7 @@ exports.init = function(io) {
     },
     remove: function() {
       if (this.socket) {
+        this.online = false;
         this.emit('remove');
         delete users[this.id];
         this.socket = null;
@@ -90,16 +99,18 @@ exports.init = function(io) {
     },
     data: function() {
       return {
-        id: this.id,
-        name: this.name
+        name: this.name,
+        team: this.team.id
       }
+    },
+    send: function(name, data) {
+      this.socket.emit(name, data);
     }
   });
 
   var UserList = this.UserList = new Class({
     Implements: [process.EventEmitter],
     initialize: function() {
-      this.id = ++userListCount;
       this.count = 0;
       this.container = { };
     },

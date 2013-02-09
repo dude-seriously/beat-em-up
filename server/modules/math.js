@@ -57,6 +57,11 @@
     return Math.sqrt((this[0] * this[0]) + (this[1] * this[1]));
   }
 
+  // returns distance of vector
+  Float32Array.prototype.dist = function(v) {
+    return Math.sqrt((this[0] * v[0]) + (this[1] * v[1]));
+  }
+
   // returns dot product of two vectors
   Float32Array.prototype.dot = function(v) {
     return this[0] * v[0] + this[1] * v[1];
