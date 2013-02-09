@@ -15,11 +15,11 @@
 
 		validate: function (attr, options) {
 			if (attr.id < 0 || typeof attr.id != "number") {
-				return "Invalid ID";
+				return "Invalid ID (" + attr.id + ")";
 			}
 
 			if (attr.x < 0 || attr.y < 0) {
-				return "Invalid coordinates";
+				return "Invalid coordinates (x: " + attr.x + ", y: " + attr.y);
 			}
 
 			if (typeof attr.x != "number" || typeof attr.y != "number") {
@@ -34,5 +34,4 @@
 			}
 		}
 	});
-
 })(window.BeatEmUp = window.BeatEmUp || {}, Backbone);
