@@ -132,6 +132,11 @@ if (window.navigator.userAgent.toLowerCase().indexOf('touch') != -1 ||
   $('.touch').css('display', 'block');
 }
 
+$('.show').click(function() {
+  $('.hidden').css('display', 'block');
+  $(this).remove();
+})
+
 socket.on('connect', function() {
   // when in lobby
   // get updates of players in lobby and how many needed for game

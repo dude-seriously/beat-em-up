@@ -44,31 +44,34 @@
         <input type="text" id="newName"></input><div class='changeNameButton'>change</div>
       </div>
       <div class="controls">
-        <a style="cursor: pointer; font-weight: bold; font-size: 130%; margin: 1em" onclick="BGmusic.pause();">♫♪ Stop the music</a>
+        <a style="float: right; cursor: pointer; font-weight: bold; font-size: 130%; margin: 1em" onclick="BGmusic.pause();">♫♪ Stop the music</a>
       </div>
-      <div class='authors'>
-        <h1>authors</h1>
-        <ul>
-          <li>Maksims Mihejevs [coding] (<a href='mailto:core@moka.co'>email</a>)</li>
-          <li>Maciej Baron [coding]</li>
-          <li>Doug Pennant [audio] (<a href='mailto:douglas.pennant@gmail.com'>email</a>)</li>
-        </ul>
-      </div>
-      <div class='authors'>
-        <h1>technology</h1>
-        <ul>
-          <li>back-end: node.js, socket.io, express.js</li>
-          <li>front-end: html5-canvas, backbone.js, socket.io</li>
-        </ul>
-      </div>
-      <div>
-        <h1><a href='https://github.com/dude-seriously/beat-em-up' target='_blank'>GitHub</a> (sources)</h1>
+      <div class='show'>show info</div>
+      <div class='hidden'>
+        <div class='authors'>
+          <h1>authors</h1>
+          <ul>
+            <li>Maksims Mihejevs [coding] (<a href='mailto:core@moka.co'>email</a>)</li>
+            <li>Maciej Baron [coding]</li>
+            <li>Doug Pennant [audio] (<a href='mailto:douglas.pennant@gmail.com'>email</a>)</li>
+          </ul>
+        </div>
+        <div class='technologies'>
+          <h1>technology</h1>
+          <ul>
+            <li>back-end: node.js, socket.io, express.js</li>
+            <li>front-end: html5-canvas, backbone.js, socket.io</li>
+          </ul>
+        </div>
+        <div>
+          <h1><a href='https://github.com/dude-seriously/beat-em-up' target='_blank'>GitHub</a> (sources)</h1>
+        </div>
       </div>
     </div>
   </div>
   <script src="/js/load.js"></script>
   <script>
-    BGmusic = new Audio('music/FightMusic.mp3'); 
+    BGmusic = new Audio('music/FightMusic.mp3');
     BGmusic.addEventListener('ended', function() {
       this.currentTime = 0;
       this.play();

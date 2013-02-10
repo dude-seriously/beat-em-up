@@ -3,6 +3,9 @@ body {
   background: #323232;
   color: #eee;
   font-family: 'Courier New';
+  max-width: 1088px;
+  width: 1088px;
+  overflow: hidden;
 }
 
 @font-face {
@@ -94,8 +97,13 @@ a {
   position: absolute;
   left: 0;
   top: 416px;
+  width: 1024px;
   font-size: 12px;
   padding: 0 16px 16px;
+}
+
+#info > .changeName {
+  float: left;
 }
 
 #info > .changeName > input {
@@ -114,6 +122,10 @@ a {
 }
 #info > .changeName > .changeNameButton:hover {
   text-decoration: underline;
+}
+
+#info .authors {
+  margin-top: 48px;
 }
 
 #info h1 {
@@ -199,4 +211,13 @@ a {
 .touch > .arrow > .button[data-button="left"] {
   top: 48px;
   right: 96px;
+}
+
+.show {
+  color: #29f;
+  cursor: pointer;
+  margin-top: 40px;
+}
+.hidden {
+  display: none;
 }
