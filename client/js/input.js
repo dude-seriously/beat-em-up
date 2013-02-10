@@ -100,6 +100,23 @@ function Input() {
         break;
     }
   }
+
+  $('[data-key]').click(function(evt) {
+    var key = $(this).attr('data-key');
+    if (this[key] != undefined) {
+      this[key] = true;
+      $(self).trigger('change');
+    }
+    evt.preventDefault();
+    return false;
+  });
+  $('[data-key]').mouseout(function() {
+    var key = $(this).attr('data-key');
+    if (this[key] != undefined) {
+      this[key] = false;
+      $(self).trigger('change');
+    }
+  });
 }
 
 Input.prototype.horiz = function() {
