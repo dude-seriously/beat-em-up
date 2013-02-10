@@ -42,7 +42,7 @@ a {
   position: absolute;
   top: 32px;
   left: 128px;
-  background: #222;
+  background: url('/images/background.png');
 }
 
 .team {
