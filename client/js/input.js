@@ -4,6 +4,8 @@ function Input() {
   this.up = false;
   this.down = false;
   this.z = false;
+  this.x = false;
+  this.c = false;
 
   var self = this;
 
@@ -101,19 +103,19 @@ function Input() {
     }
   }
 
-  $('[data-key]').click(function(evt) {
-    var key = $(this).attr('data-key');
-    if (this[key] != undefined) {
-      this[key] = true;
+  $('[data-button]').mousedown(function(evt) {
+    var key = $(this).attr('data-button');
+    if (self[key] != undefined) {
+      self[key] = true;
       $(self).trigger('change');
     }
     evt.preventDefault();
     return false;
   });
-  $('[data-key]').mouseout(function() {
-    var key = $(this).attr('data-key');
-    if (this[key] != undefined) {
-      this[key] = false;
+  $('[data-button]').mouseout(function() {
+    var key = $(this).attr('data-button');
+    if (self[key] != undefined) {
+      self[key] = false;
       $(self).trigger('change');
     }
   });
