@@ -59,7 +59,7 @@ var own = 0;
 
 var canvas = document.getElementById("game");
 var ctx = canvas.getContext("2d");
-ctx.font = '16px Courier New';
+ctx.font = '14px "pixel"';
 
 /*if () {
   $('.windows8').css('display', 'block');
@@ -95,8 +95,27 @@ socket.on('connect', function() {
 
     ctx.translate(32, 152);
 
-    for (var id in PlayerViews) {
-      PlayerViews[id].render();
+    var players = [];
+    for(var id in PlayerViews) {
+      players.push(PlayerViews[id]);
+    }
+    players.sort(function(a, b) {
+      return b.model.get('y') - a.model.get('y');
+    });
+
+    var i = players.length;
+    while(i--) {
+      players[i].renderBottom();
+    }
+
+    i = players.length;
+    while(i--) {
+      players[i].render(true);
+    }
+
+    i = players.length;
+    while(i--) {
+      players[i].renderTop();
     }
   }
 

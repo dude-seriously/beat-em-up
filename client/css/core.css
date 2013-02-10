@@ -5,6 +5,16 @@ body {
   font-family: 'Courier New';
 }
 
+@font-face {
+  font-family:"pixel";
+  src:url("/font/pixelart.eot?") format("eot"),
+      url("/font/pixelart.woff") format("woff"),
+      url("/font/pixelart.ttf") format("truetype"),
+      url("/font/pixelart.svg#Pixel-Art") format("svg");
+  font-weight:normal;
+  font-style:normal;
+}
+
 a {
   color: #29f;
 }
@@ -15,10 +25,12 @@ a {
   line-height: 32px;
   font-size: 24px;
   text-align: center;
+  font-family: "pixel";
 }
 
 #header > span {
   font-size: 14px;
+  font-family: 'Courier New';
 }
 
 #lobby {
@@ -26,6 +38,7 @@ a {
   height: 384px;
   font-size: 24px;
   text-align: center;
+  font-family: "pixel";
 }
 #lobby > h1 {
   margin-top: 128px;
@@ -51,6 +64,7 @@ a {
   top: 32px;
   border: 1px solid #222;
   border-bottom: none;
+  font-family: "pixel";
 }
 .team[data-name="red"] {
   left: 960px;
