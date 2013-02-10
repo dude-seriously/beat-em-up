@@ -154,6 +154,8 @@ var tick = 1000 / ups;
 
         this.users.pub('player.spawn', player.data(true));
         player.user.send('player.own', player.id);
+      } else {
+        this.users.pub('user.leave', player.user.id);
       }
     }
   });

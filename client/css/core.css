@@ -10,7 +10,7 @@ a {
 }
 
 #header {
-  width: 1024px;
+  width: 1088px;
   height: 32px;
   line-height: 32px;
   font-size: 24px;
@@ -19,6 +19,23 @@ a {
 
 #header > span {
   font-size: 14px;
+}
+
+#lobby {
+  width: 1088px;
+  height: 384px;
+  font-size: 24px;
+  text-align: center;
+}
+#lobby > h1 {
+  margin-top: 128px;
+  font-size: 24px;
+  margin: 128px 0 0;
+  font-weight: normal;
+}
+
+#gameplay {
+  display: none;
 }
 
 #game {
@@ -37,16 +54,18 @@ a {
 }
 .team[data-name="red"] {
   left: 0;
+  color: #29d;
 }
 .team[data-name="green"] {
-  left: 896px;
+  left: 960px;
+  color: #ff0;
 }
 .team > .score {
   height: 32px;
   line-height: 32px;
   font-size: 24px;
   text-align: center;
-  border-bottom: 1px solid #222;
+  background: #222;
 }
 .team > .users > .user {
   padding: 2px;
@@ -65,11 +84,21 @@ a {
   padding: 0 16px 16px;
 }
 
-#info > .changeName {
-  color: #29f;
-  cursor: pointer;
+#info > .changeName > input {
+  background: #222;
+  color: #fff;
+  outline: none;
+  border: none;
+  padding: 2px 4px;
 }
-#info > .changeName:hover {
+#info > .changeName > .changeNameButton {
+  display: inline-block;
+  color: #29f;
+  border: 1px solid #222;
+  cursor: pointer;
+  padding: 2px 4px;
+}
+#info > .changeName > .changeNameButton:hover {
   text-decoration: underline;
 }
 
@@ -83,4 +112,8 @@ a {
 }
 #info p {
   margin: 0;
+}
+
+.windows8 {
+  display: none;
 }
