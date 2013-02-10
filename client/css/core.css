@@ -159,7 +159,7 @@ a {
 }
 
 .touch > .hit > .button {
-  float: left;
+  float: right;
   width: 48px;
   height: 48px;
   line-height: 48px;
@@ -180,7 +180,7 @@ a {
 
 .touch > .arrow > .button {
   position: absolute;
-  right: 0;
+  left: 0;
   width: 48px;
   height: 48px;
   line-height: 48px;
@@ -198,19 +198,19 @@ a {
 
 .touch > .arrow > .button[data-button="up"] {
   top: 0;
-  right: 48px;
+  left: 48px;
 }
 .touch > .arrow > .button[data-button="right"] {
   top: 48px;
-  right: 0;
+  left: 96px;
 }
 .touch > .arrow > .button[data-button="down"] {
   top: 96px;
-  right: 48px;
+  left: 48px;
 }
 .touch > .arrow > .button[data-button="left"] {
   top: 48px;
-  right: 96px;
+  left: 0;
 }
 
 .show {

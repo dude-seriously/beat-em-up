@@ -123,7 +123,6 @@ $('.changeName > input').keyup(function(evt) {
 
 
 var own = 0;
-
 var touch = 'ontouchstart' in document.documentElement;
 if (window.navigator.userAgent.toLowerCase().indexOf('touch') != -1 ||
     window.navigator.userAgent.toLowerCase().indexOf('tablet pc 2.0') != -1 ||
