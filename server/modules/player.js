@@ -86,6 +86,8 @@ var playerCount = 0;
     hit: function(damage) {
       this.hp -= damage;
 
+      this.emit('hit', damage);
+
       if (this.hp <= 0) {
         this.kill();
       }

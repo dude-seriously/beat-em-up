@@ -1,12 +1,12 @@
 exports.init = function(io) {
 
-}
+};
 
 var colors = {
   red: 'red',
   green: 'green',
   neutral: 'gray'
-}
+};
 
 var teamCount = 0;
 

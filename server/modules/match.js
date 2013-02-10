@@ -1,6 +1,7 @@
 require(process.cwd() + '/modules/user');
 require(process.cwd() + '/modules/player');
 require(process.cwd() + '/modules/world');
+require(process.cwd() + '/modules/item');
 
 exports.init = function(io) {
 
@@ -24,6 +25,7 @@ var tick = 1000 / ups;
       });
       this.world = null;
       this.players = null;
+      this.item = null;
       this.timer = null;
     },
     start: function() {
@@ -41,6 +43,8 @@ var tick = 1000 / ups;
           x: 100,
           y: 100
         }));
+
+        this.item = new Item(Math.floor(this.world.width / 2), Math.floor(this.world.height / 2));
 
         this.players = new PlayerList();
         var odd = true;
@@ -69,7 +73,8 @@ var tick = 1000 / ups;
           world: this.world.data(true),
           teams: this.world.teams.data(true),
           users: this.users.data(true),
-          players: this.players.data(true)
+          players: this.players.data(true),
+          item: this.item.data()
         });
         for(var id in this.users.all()) {
           var user = this.users.get(id);
@@ -108,12 +113,14 @@ var tick = 1000 / ups;
     update: function() {
       this.world.update();
       this.players.update(this.world);
+      this.item.update(this.world.time, this.players);
       this.users.update();
 
       var state = {
         teams: this.world.teams.data(),
         users: this.users.data(),
-        players: this.players.data()
+        players: this.players.data(),
+        item: this.item.data()
       }
 
       this.users.pub('state', state);
@@ -144,7 +151,7 @@ var tick = 1000 / ups;
         var player = new Player({
           user: player.user,
           x: player.user.team.x,
-          y: player.user.team.y,
+          y: Math.floor(Math.random() * (this.world.height - 64)) + 32,
           f: player.user.team.name == 'red' ? 1 : -1
         });
         player.on('death', function() {

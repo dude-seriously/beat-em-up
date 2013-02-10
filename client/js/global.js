@@ -40,10 +40,38 @@ User.prototype.data = function(data) {
   }
 }
 
+
+var item = null;
+function Item(x, y) {
+  this.x = x;
+  this.y = y;
+  this.player = 0;
+}
+Item.prototype.render = function(ctx) {
+  if (this.player != 0) {
+    console.log('player')
+  } else {
+    ctx.save();
+    ctx.translate(-16, -24);
+
+    ctx.beginPath();
+
+    ctx.fillStyle = '#f00';
+    ctx.rect(this.x, this.y, 32, 24);
+    ctx.fill();
+
+    ctx.restore();
+    //console.log('place')
+  }
+}
+
+
+
 $('.changeNameButton').click(function() {
   var name = $('.changeName > input').val();
-  if (name.length >= 4 && name.length <= 12 && /^[a-z][a-z0-9_-]+$/i.test(name)) {
+  if (name.length >= 4 && name.length <= 10 && /^[a-z][a-z0-9_-]+$/i.test(name)) {
     socket.emit('setName', name);
+    $('.changeName > input').blur();
   } else {
     console.log('inavlid');
   }
@@ -117,6 +145,8 @@ socket.on('connect', function() {
     while(i--) {
       players[i].renderTop();
     }
+
+    item.render(ctx);
   }
 
   // at the beginning of match
@@ -142,6 +172,8 @@ socket.on('connect', function() {
         score: data.users[id].score
       });
     }
+
+    item = new Item(data.item.x, data.item.y);
 
     BeatEmUp.enableDebug(true);
     for(var id in data.players) {
@@ -196,6 +228,13 @@ socket.on('connect', function() {
      have list of players
      */
   socket.on('state', function(data) {
+    if (data.item.player) {
+      item.player = data.item.player;
+    } else {
+      item.x = data.item.x;
+      item.y = data.item.y;
+    }
+
     for(var id in data.teams) {
       teams[id].data(data.teams[id]);
     }

@@ -32,7 +32,7 @@ exports.init = function(io) {
 
     socket.on('setName', function(name) {
       var user = getUser(this);
-      if (name && name.length >= 4 && name.length <= 12 && /^[a-z][a-z0-9_-]+$/i.test(name)) {
+      if (name && name.length >= 4 && name.length <= 10 && /^[a-z][a-z0-9_-]+$/i.test(name)) {
         user.setName(name);
       } else {
         console.log('invalid');
