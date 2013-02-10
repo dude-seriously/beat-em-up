@@ -100,7 +100,7 @@
 
 
 	/*
-	
+
 		View
 
 	*/
@@ -149,7 +149,48 @@
 		},
 
 		render: function () {
+      var x = Math.floor(this.model.get('x') / 4) * 4;
+      var y = Math.floor(this.model.get('y') / 2) * 2;
+      if (this.model.id == own) {
+        this.context.save();
+
+        this.context.globalAlpha = 0.3;
+        this.context.translate(x, y);
+        this.context.scale(1, .5);
+        this.context.beginPath();
+        this.context.arc(0, 0, 29, 0 , 2 * Math.PI, false);
+        this.context.strokeStyle = this.model.get('user').team.name == 'green' ? '#26f' : '#ff0';
+        this.context.lineWidth = 2;
+        this.context.stroke();
+        this.context.globalAlpha = 1;
+
+        this.context.restore();
+      }
+      this.context.save();
+
+      this.context.translate(-29, -74);
 			this.sprite.Draw(this.context);
+
+      this.context.textAlign = 'center';
+      this.context.fillStyle = this.model.get('user').team.name == 'green' ? '#26f' : '#ff0';
+      this.context.fillText(this.model.get('user').name, x + 29, y);
+
+      this.context.beginPath();
+      this.context.fillStyle = '#000';
+      this.context.rect(x - 32 + 29, y + 78, 60, 4);
+      this.context.fill();
+
+      var hp = this.model.get('hp');
+      this.context.beginPath();
+      this.context.fillStyle = hp > 50 ? '#0f0' : (hp > 25 ? '#ff0' : '#f00');
+      var bars = Math.floor(hp / 10);
+      var i = bars;
+      while(i--) {
+        this.context.rect(x + (i * 6) - 2, y + 78, 5, 4)
+      }
+      this.context.fill();
+
+      this.context.restore();
 		}
 	});
 

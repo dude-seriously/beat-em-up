@@ -7,8 +7,50 @@
   <link href="/css/core.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-	<canvas id="game" width="1000" height="500"></canvas>
-	
-  	<script src="/js/load.js"></script>
+  <div id='header'>Beat-Em-Up<span> - GameHackDays [10.02.13]</span></div>
+  <div id='lobby'>
+    <h1>Waiting for players...</h1>
+    <div class='users'></div>
+  </div>
+  <div id='gameplay'>
+  	<canvas id="game" width="832" height="384"></canvas>
+
+    <div class='team' data-name='red'>
+      <div class='score'>0</div>
+      <div class='users'></div>
+    </div>
+    <div class='team' data-name='green'>
+      <div class='score'>0</div>
+      <div class='users'></div>
+    </div>
+
+    <div id='info'>
+      <div class='changeName'>
+        <div>change name</div>
+        <input type="text" id="newName"></input><div class='changeNameButton'>change</div>
+      </div>
+      <div class='authors'>
+        <h1>authors</h1>
+        <ul>
+          <li>Maksims Mihejevs (<a href='mailto:core@moka.co'>email</a>)</li>
+          <li>Maciej Baron</li>
+        </ul>
+      </div>
+      <div class='authors'>
+        <h1>technology</h1>
+        <ul>
+          <li>back-end: node.js, socket.io, express.js</li>
+          <li>front-end: html5-canvas, backbone.js, socket.io</li>
+        </ul>
+      </div>
+      <div>
+        <h1><a href='https://github.com/dude-seriously/beat-em-up' target='_blank'>GitHub</a> (sources)</h1>
+      </div>
+    </div>
+  </div>
+
+  <div class='windows8'>WINDOWS 8</div>
+
+  <script src="/js/load.js"></script>
 </body>
 </html>

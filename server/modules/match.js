@@ -30,15 +30,15 @@ var tick = 1000 / ups;
       if (!this.timer) {
         var self = this;
 
-        this.world = new World(3000, 200);
+        this.world = new World(768, 200);
         this.world.teams.add(new Team({
           name: 'red',
-          x: 100,
+          x: 668,
           y: 100
         }));
         this.world.teams.add(new Team({
           name: 'green',
-          x: 400,
+          x: 100,
           y: 100
         }));
 
@@ -57,7 +57,8 @@ var tick = 1000 / ups;
           var player = new Player({
             user: user,
             x: user.team.x,
-            y: user.team.y
+            y: user.team.y,
+            f: user.team.name == 'red' ? 1 : -1
           });
           player.on('death', function() {
             return self.playerDeath(this);
@@ -72,6 +73,12 @@ var tick = 1000 / ups;
         });
         for(var id in this.users.all()) {
           var user = this.users.get(id);
+          user.on('name', function() {
+            self.users.pub('setName', {
+              id: this.id,
+              name: this.name
+            })
+          });
           for(var pId in this.players.all()) {
             var player = this.players.get(pId);
             if (player.user == user) {
@@ -105,6 +112,7 @@ var tick = 1000 / ups;
 
       var state = {
         teams: this.world.teams.data(),
+        users: this.users.data(),
         players: this.players.data()
       }
 
@@ -136,7 +144,8 @@ var tick = 1000 / ups;
         var player = new Player({
           user: player.user,
           x: player.user.team.x,
-          y: player.user.team.y
+          y: player.user.team.y,
+          f: player.user.team.name == 'red' ? 1 : -1
         });
         player.on('death', function() {
           return self.playerDeath(this);
@@ -145,6 +154,8 @@ var tick = 1000 / ups;
 
         this.users.pub('player.spawn', player.data(true));
         player.user.send('player.own', player.id);
+      } else {
+        this.users.pub('user.leave', player.user.id);
       }
     }
   });
