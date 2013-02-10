@@ -65,5 +65,13 @@
   </div>
 
   <script src="/js/load.js"></script>
+  <script>
+    BGmusic = new Audio('music/FightMusic.mp3'); 
+    BGmusic.addEventListener('ended', function() {
+      this.currentTime = 0;
+      this.play();
+    }, false);
+    BGmusic.play();
+</script>
 </body>
 </html>
