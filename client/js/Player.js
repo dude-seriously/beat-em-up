@@ -119,6 +119,7 @@
 
 			this.sprite = attributes.sprite;
 			this.fight_sprite = attributes.fight_sprite;
+			this.hold_sprite = attributes.hold_sprite;
 			this.context = attributes.context;
 			this.fighting = false;
 
@@ -169,7 +170,7 @@
 	      if (render) {
 	        this.context.save();
 
-	        this.context.translate(-29, -74);
+	        //this.context.translate(-29, -74);
 
 	        if (this.fighting == true) {
 	        	this.fight_sprite.Draw(this.context);

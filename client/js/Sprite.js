@@ -30,7 +30,7 @@
 	BeatEmUp.Sprite.prototype.Draw = function (context) {
 		// BeatEmUp.debug("Drawing sprite " + this.spritesheet.src + " at " + this.x + ':' +this.y, "Sprite");
 
-		context.drawImage(this.spritesheet, this.current_frame*this.dw, this.row*this.dh, this.dw, this.dh, Math.floor(this.x / 4) * 4, Math.floor(this.y / 2) * 2, this.dw, this.dh);
+		context.drawImage(this.spritesheet, this.current_frame*this.dw, this.row*this.dh, this.dw, this.dh, Math.floor(this.x / 4) * 4 - (this.dw/2), Math.floor(this.y / 2) * 2 - this.dh, this.dw, this.dh);
 
 		return this;
 	}

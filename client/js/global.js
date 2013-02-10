@@ -51,6 +51,9 @@ function Item(x, y) {
   this.y = y;
   this.player = 0;
 }
+
+var chicken_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.chicken, 0, 0, 42, 32, 0, 200, 3, 0, 0);
+chicken_sprite.StartAnimation();
 Item.prototype.renderBottom = function() {
   if (this.player == 0) {
     ctx.save();
@@ -71,15 +74,17 @@ Item.prototype.renderBottom = function() {
 Item.prototype.render = function() {
   if (this.player == 0) {
     ctx.save();
-    ctx.translate(-16, -24);
+    // ctx.translate(-16, -24);
 
-    ctx.beginPath();
+    // ctx.beginPath();
 
-    ctx.fillStyle = '#f00';
-    ctx.rect(this.x, this.y, 32, 24);
-    ctx.fill();
+    // ctx.fillStyle = '#f00';
+    // ctx.rect(this.x, this.y, 32, 24);
+    // ctx.fill();
 
-    ctx.restore();
+    // ctx.restore();
+    chicken_sprite.SetLocation(this.x, this.y);
+    chicken_sprite.Draw(ctx);
     //console.log('place')
   }
 }
@@ -215,9 +220,11 @@ socket.on('connect', function() {
       if (users[data.players[id].user].team.name == "green") {
         var my_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.dudeWalk, data.players[id].x, data.players[id].y, 58, 74, 0, 100, 3, 0, 0);
         var my_fight_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.dudePunch, data.players[id].x, data.players[id].y, 58, 74, 0, 100, 3, 0, 1)
+        var my_hold_sprite =  new BeatEmUp.Sprite(BeatEmUp.Images.dudeHold, data.players[id].x, data.players[id].y, 58, 74, 0, 100, 3, 0, 0);
       } else {
         var my_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.dude2Walk, data.players[id].x, data.players[id].y, 58, 74, 0, 100, 3, 0, 0);
-        var my_fight_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.dude2Punch, data.players[id].x, data.players[id].y, 58, 74, 0, 100, 3, 0, 1)
+        var my_fight_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.dude2Punch, data.players[id].x, data.players[id].y, 58, 74, 0, 100, 3, 0, 1);
+         new BeatEmUp.Sprite(BeatEmUp.Images.dude2Hold, data.players[id].x, data.players[id].y, 58, 74, 0, 100, 3, 0, 0);
       }
 
       PlayerModels[id]  = new BeatEmUp.PlayerModel({
