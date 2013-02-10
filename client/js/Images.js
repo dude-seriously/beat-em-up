@@ -15,6 +15,8 @@
 		dude2Walk: load_img("dude2-walk"),
 		dudePunch: load_img("dude-punch"),
 		dude2Punch: load_img("dude2-punch"),
+		dudeCorpse: load_img("dude-corpse"),
+		dude2Corpse: load_img("dude2-corpse")
 
 	}
 
