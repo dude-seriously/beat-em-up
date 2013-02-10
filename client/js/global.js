@@ -355,11 +355,11 @@ socket.on('connect', function() {
     if (users[data.user].team.name == "green") {
       var my_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.dudeWalk, data.x, data.y, 58, 74, 0, 100, 3, 0, 0);
       var my_fight_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.dudePunch, data.x, data.y, 58, 74, 0, 100, 3, 0, 1);
-      var my_hold_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.dudeHold, data.x, data.y, 58, 106, 0, 100, 3, 0, 1)
+      var my_hold_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.dudeHold, data.x, data.y, 58, 106, 0, 100, 3, 0, 0)
     } else {
       var my_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.dude2Walk, data.x, data.y, 58, 74, 0, 100, 3, 0, 0);
       var my_fight_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.dude2Punch, data.x, data.y, 58, 74, 0, 100, 3, 0, 1);
-      var my_hold_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.dude2Hold, data.x, data.y, 58, 106, 0, 100, 3, 0, 1)
+      var my_hold_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.dude2Hold, data.x, data.y, 58, 106, 0, 100, 3, 0, 0)
     }
 
     PlayerModels[data.id] = new BeatEmUp.PlayerModel({
