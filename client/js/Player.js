@@ -14,7 +14,8 @@
 			destination_x: 0,
 			destination_y: 0,
 			speed: 1,
-			walking: false
+			walking: false,
+			holding: false
 		},
 
 		initialize: function(attributes) {
@@ -111,7 +112,7 @@
 			if (typeof attributes.model == "object") {
 				this.model.on("change", this.handleChange, this);
 				this.model.on("change:walking", this.handleWalkState, this);
-				this.model.on("change:facing", this.handleFacing, this)
+				this.model.on("change:facing", this.handleFacing, this);
 			} else {
 				BeatEmUp.debug("Init Error: Did not assign model to PlayerView", "PlayerView");
 				return false;
@@ -131,25 +132,32 @@
 
 			this.sprite.SetLocation(x, y);
 			this.fight_sprite.SetLocation(x, y);
+			this.hold_sprite.SetLocation(x, y);
 
 			this.render();
 		},
 
 		handleWalkState: function () {
+			var spr = this.sprite;
+			if (this.model.get("holding")) {
+				spr = this.hold_sprite;
+			}
 			if (this.model.get("walking")) {
 				clearTimeout(this.timeout);
-				this.sprite.StartAnimation();
+				spr.StartAnimation();
 			} else {
-				this.sprite.StopAnimation().ResetAnimation();
+				spr.StopAnimation().ResetAnimation();
 			}
 		},
 
 		handleFacing: function () {
 			if (this.model.get("facing") == 1) {
 				this.sprite.row = 0;
+				this.hold_sprite.row = 0;
 				this.fight_sprite.row = 0;
 			} else {
 				this.sprite.row = 1;
+				this.hold_sprite.row = 1;
 				this.fight_sprite.row = 1;
 			}
 		},
@@ -174,6 +182,8 @@
 
 	        if (this.fighting == true) {
 	        	this.fight_sprite.Draw(this.context);
+	        } else if (this.model.get("holding")  == true) {
+	        	this.hold_sprite.Draw(this.context);
 	        } else {
 	        	this.sprite.Draw(this.context);
 	        }
@@ -198,7 +208,7 @@
 		var bars = Math.floor(hp / 10);
 		var i = bars;
 		while(i--) {
-		this.context.rect(x + (i * 6) - 29, y + 4, 5, 4)
+			this.context.rect(x + (i * 6) - 29, y + 4, 5, 4)
 		}
 		this.context.fill();
 

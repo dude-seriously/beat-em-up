@@ -213,11 +213,11 @@ socket.on('connect', function() {
       if (users[data.players[id].user].team.name == "green") {
         var my_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.dudeWalk, data.players[id].x, data.players[id].y, 58, 74, 0, 100, 3, 0, 0);
         var my_fight_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.dudePunch, data.players[id].x, data.players[id].y, 58, 74, 0, 100, 3, 0, 1)
-        var my_hold_sprite =  new BeatEmUp.Sprite(BeatEmUp.Images.dudeHold, data.players[id].x, data.players[id].y, 58, 74, 0, 100, 3, 0, 0);
+        var my_hold_sprite =  new BeatEmUp.Sprite(BeatEmUp.Images.dudeHold, data.players[id].x, data.players[id].y, 58, 106, 0, 100, 3, 0, 0);
       } else {
         var my_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.dude2Walk, data.players[id].x, data.players[id].y, 58, 74, 0, 100, 3, 0, 0);
         var my_fight_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.dude2Punch, data.players[id].x, data.players[id].y, 58, 74, 0, 100, 3, 0, 1);
-         new BeatEmUp.Sprite(BeatEmUp.Images.dude2Hold, data.players[id].x, data.players[id].y, 58, 74, 0, 100, 3, 0, 0);
+        var my_hold_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.dude2Hold, data.players[id].x, data.players[id].y, 58, 106, 0, 100, 3, 0, 0);
       }
 
       PlayerModels[id]  = new BeatEmUp.PlayerModel({
@@ -235,6 +235,7 @@ socket.on('connect', function() {
         model: PlayerModels[id],
         sprite: my_sprite,
         fight_sprite: my_fight_sprite,
+        hold_sprite: my_hold_sprite,
         context: ctx
       });
 
@@ -263,8 +264,14 @@ socket.on('connect', function() {
      */
   socket.on('state', function(data) {
     if (data.item.player) {
+      if (item.player == 0) {
+        PlayerModels[data.item.player].set({holding: true});
+      }
       item.player = data.item.player;
     } else {
+      if (item.player != 0) {
+        PlayerModels[item.player].set({holding: false});
+      }
       item.x = data.item.x;
       item.y = data.item.y;
       item.player = 0;
@@ -321,10 +328,12 @@ socket.on('connect', function() {
   socket.on('player.spawn', function(data) {
     if (users[data.user].team.name == "green") {
       var my_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.dudeWalk, data.x, data.y, 58, 74, 0, 100, 3, 0, 0);
-      var my_fight_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.dudePunch, data.x, data.y, 58, 74, 0, 100, 3, 0, 1)
+      var my_fight_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.dudePunch, data.x, data.y, 58, 74, 0, 100, 3, 0, 1);
+      var my_hold_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.dudeHold, data.x, data.y, 58, 106, 0, 100, 3, 0, 1)
     } else {
       var my_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.dude2Walk, data.x, data.y, 58, 74, 0, 100, 3, 0, 0);
-      var my_fight_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.dude2Punch, data.x, data.y, 58, 74, 0, 100, 3, 0, 1)
+      var my_fight_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.dude2Punch, data.x, data.y, 58, 74, 0, 100, 3, 0, 1);
+      var my_hold_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.dude2Hold, data.x, data.y, 58, 106, 0, 100, 3, 0, 1)
     }
 
     PlayerModels[data.id] = new BeatEmUp.PlayerModel({
@@ -342,6 +351,7 @@ socket.on('connect', function() {
       model: PlayerModels[data.id],
       sprite: my_sprite,
       fight_sprite: my_fight_sprite,
+      hold_sprite: my_hold_sprite,
       context: ctx
     });
   });
