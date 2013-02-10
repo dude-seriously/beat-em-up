@@ -61,7 +61,17 @@ var canvas = document.getElementById("game");
 var ctx = canvas.getContext("2d");
 ctx.font = '16px Courier New';
 
-if (typeof Windows != "undefined") {
+/*if () {
+  $('.windows8').css('display', 'block');
+}*/
+//alert(window.navigator.userAgent);
+
+// Tablet PC 2.0
+
+var touch = 'ontouchstart' in document.documentElement;
+if (/*window.navigator.userAgent.toLowerCase().indexOf('touch') ||
+    window.navigator.userAgent.toLowerCase().indexOf('tablet pc 2.0')*/touch) {
+
   $('.windows8').css('display', 'block');
 }
 
