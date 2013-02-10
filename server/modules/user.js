@@ -30,12 +30,16 @@ exports.init = function(io) {
       } catch(ex) { }
     });
 
-    /*socket.on('setName', function(data) {
+    socket.on('setName', function(name) {
       var user = getUser(this);
-      if (data.name && data.name.length >= 4 && data.name <= 12 && /^[a-z][a-z0-9_-]+$/i.test(data.name)) {
-        user.setName(data.name);
+      if (name && name.length >= 4 && name.length <= 12 && /^[a-z][a-z0-9_-]+$/i.test(name)) {
+        user.setName(name);
+      } else {
+        console.log('invalid');
+        console.log(name)
+        console.log(/^[a-z][a-z0-9_-]+$/i.test(name))
       }
-    });*/
+    });
   });
 };
 
@@ -74,11 +78,13 @@ exports.init = function(io) {
     },
     setName: function(name) {
       this.name = name;
-/*
-      var packet = {
+
+      /*var packet = {
         id: this.id,
         name: this.name
-      }
+      }*/
+      this.emit('name');
+      /*console.log(this.lists)
       for(var id in this.lists) {
         this.lists[id].pub('setName', packet);
       }*/
@@ -98,10 +104,16 @@ exports.init = function(io) {
         this.lists = null;
       }
     },
-    data: function() {
-      return {
-        name: this.name,
-        team: this.team.id
+    data: function(full) {
+      if (full) {
+        return {
+          name: this.name,
+          team: this.team.id
+        }
+      } else {
+        return {
+          score: this.score
+        }
       }
     },
     send: function(name, data) {
@@ -161,10 +173,10 @@ exports.init = function(io) {
         user.socket.emit(name, data);
       }
     },
-    data: function() {
+    data: function(full) {
       var data = { };
       for(var id in this.container) {
-        data[id] = this.container[id].data();
+        data[id] = this.container[id].data(full);
       }
       return data;
     }

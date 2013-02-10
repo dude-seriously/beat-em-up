@@ -3,8 +3,16 @@ var socket = io.connect();
 var teams = { };
 function Team(data) {
   this.id = data.id;
+  this.name = data.name;
   this.color = data.color;
   this.score = data.score;
+  teams[this.id] = this;
+}
+Team.prototype.data = function(data) {
+  if (data.score != this.score) {
+    this.score = data.score;
+    $('.team[data-name="' + this.name + '"] > .score').html(this.score);
+  }
 }
 
 var users = { };
@@ -12,9 +20,41 @@ function User(data) {
   this.id = data.id;
   this.name = data.name;
   this.team = data.team;
-  this.score = data.score;
+  this.score = data.score ? data.score : 0;
   users[this.id] = this;
+
+  $('.team[data-name="' + this.team.name + '"] > .users').append('<div class="user" data-id="' + this.id + '"><span class="name">' + this.name + '</span><span class="score">0</span></div>');
 }
+User.prototype.data = function(data) {
+  if (data.score != undefined) {
+    if (data.score != this.score) {
+      this.score = data.score;
+      $('.user[data-id="' + this.id + '"] > .score').html(this.score);
+    }
+  }
+  if (data.name != undefined) {
+    if (data.name) {
+      this.name = data.name;
+      $('.user[data-id="' + this.id + '"] > .name').html(this.name);
+    }
+  }
+}
+
+$('.changeName').click(function() {
+  var name = prompt("Enter your Nick!", "");
+  if (name.length >= 4 && name.length <= 12 && /^[a-z][a-z0-9_-]+$/i.test(name)) {
+    socket.emit('setName', name);
+  } else {
+    console.log('inavlid');
+  }
+});
+
+
+var own = 0;
+
+var canvas = document.getElementById("game");
+var ctx = canvas.getContext("2d");
+ctx.font = '16px Courier New';
 
 socket.on('connect', function() {
   // when in lobby
@@ -36,9 +76,10 @@ socket.on('connect', function() {
       PlayerModels[id].walkToDestination();
     }
 
-    c = document.getElementById("game");
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    c.width = c.width;
+    ctx.translate(0, 184);
 
     for (var id in PlayerViews) {
       PlayerViews[id].render();
@@ -79,6 +120,7 @@ socket.on('connect', function() {
     for(var id in data.teams) {
       var team = new Team({
         id: id,
+        name: data.teams[id].name,
         color: data.teams[id].color,
         score: data.teams[id].score
       });
@@ -88,11 +130,12 @@ socket.on('connect', function() {
       var user = new User({
         id: id,
         name: data.users[id].name,
-        team: teams[data.users[id].team]
+        team: teams[data.users[id].team],
+        score: data.users[id].score
       });
     }
 
-    var ctx = document.getElementById("game").getContext("2d");
+    //var ctx = document.getElementById("game").getContext("2d");
 
     BeatEmUp.enableDebug(true);
     for(var id in data.players) {
@@ -154,7 +197,11 @@ socket.on('connect', function() {
     /*
     // id based list
     data.teams = {
-      points: 0
+      score: 0
+    }
+    // id based list
+    data.users = {
+      score: 0
     }
     data.players = {
       id: 0,
@@ -165,6 +212,14 @@ socket.on('connect', function() {
       hp: 0
     }
     */
+
+    for(var id in data.teams) {
+      teams[id].data(data.teams[id]);
+    }
+
+    for(var id in data.users) {
+      users[id].data(data.users[id]);
+    }
 
     for(var id in data.players) {
       var model = PlayerModels[id];
@@ -239,6 +294,14 @@ socket.on('connect', function() {
   });
 
 
+  socket.on('setName', function(data) {
+    var user = users[data.id];
+    user.data({
+      name: data.name
+    })
+  });
+
+
   // when player spawns
   // need to add that player to world
   socket.on('player.spawn', function(data) {
@@ -250,11 +313,32 @@ socket.on('connect', function() {
     data.sp = 0
     data.hp = 0
     */
-    $('body').append('<div class="player" id="player' + data.id + '" style="background:blue"><div class="health"><div></div></div><div class="face"></div><div class="kick"></div></div>');
+
+
+    var my_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.dudeWalk, data.x, data.y, 58, 74, 0, 100, 3, 0, 0);
+
+    PlayerModels[data.id] = new BeatEmUp.PlayerModel({
+      id: data.id,
+      user: users[data.user],
+      x: data.x,
+      y: data.y,
+      speed: data.sp,
+      hp: data.hp,
+      state: data.state,
+      facing: data.f
+    });
+
+    PlayerViews[data.id] = new BeatEmUp.PlayerView({
+      model: PlayerModels[data.id],
+      sprite: my_sprite,
+      context: ctx
+    });
+
+    /*$('body').append('<div class="player" id="player' + data.id + '" style="background:blue"><div class="health"><div></div></div><div class="face"></div><div class="kick"></div></div>');
     $('#player' + data.id).css({
       left: data.x,
       top: data.y,
-    }).children('> .health');
+    }).children('> .health');*/
     //console.log('player.spawn');
     //console.log(JSON.stringify(data));
   });
@@ -265,12 +349,15 @@ socket.on('connect', function() {
   socket.on('player.death', function(id) {
     //console.log('player.death');
     //console.log(id);
-    $('#player' + id).remove();
+
+    delete PlayerModels[id];
+    delete PlayerViews[id];
   });
 
 
   // identify which player is controlled by user
   socket.on('player.own', function(id) {
+    own = id;
     //console.log('player.own');
     //console.log(id);
   });
