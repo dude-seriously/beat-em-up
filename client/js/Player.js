@@ -118,7 +118,9 @@
 			}
 
 			this.sprite = attributes.sprite;
+			this.fight_sprite = attributes.fight_sprite;
 			this.context = attributes.context;
+			this.fighting = false;
 
 		},
 
@@ -127,6 +129,7 @@
 			var y = this.model.get("y");
 
 			this.sprite.SetLocation(x, y);
+			this.fight_sprite.SetLocation(x, y);
 
 			this.render();
 		},
@@ -142,48 +145,67 @@
 
 		handleFacing: function () {
 			if (this.model.get("facing") == 1) {
-				this.sprite.row = 0
+				this.sprite.row = 0;
+				this.fight_sprite.row = 0;
 			} else {
 				this.sprite.row = 1;
+				this.fight_sprite.row = 1;
+			}
+		},
+
+		startHitting: function () {
+			if (this.fighting == false) {
+				var self = this;
+				this.fighting = true;
+				this.fight_sprite.StartAnimation(function () {
+					self.fight_sprite.StopAnimation();
+					self.fight_sprite.ResetAnimation();
+					self.fighting = false;
+				});
 			}
 		},
 
 		render: function (render) {
-      if (render) {
-        this.context.save();
+	      if (render) {
+	        this.context.save();
 
-        this.context.translate(-29, -74);
-  			this.sprite.Draw(this.context);
+	        this.context.translate(-29, -74);
 
-        this.context.restore();
-      }
+	        if (this.fighting == true) {
+	        	this.fight_sprite.Draw(this.context);
+	        } else {
+	        	this.sprite.Draw(this.context);
+	        }
+
+	        this.context.restore();
+	      }
 		},
     renderTop: function() {
-      var x = Math.floor(this.model.get('x') / 4) * 4;
-      var y = Math.floor(this.model.get('y') / 2) * 2;
+		var x = Math.floor(this.model.get('x') / 4) * 4;
+		var y = Math.floor(this.model.get('y') / 2) * 2;
 
-      this.context.save();
+		this.context.save();
 
-      this.context.beginPath();
-      this.context.fillStyle = '#000';
-      this.context.rect(x - 29, y + 4, 59, 4);
-      this.context.fill();
+		this.context.beginPath();
+		this.context.fillStyle = '#000';
+		this.context.rect(x - 29, y + 4, 59, 4);
+		this.context.fill();
 
-      var hp = this.model.get('hp');
-      this.context.beginPath();
-      this.context.fillStyle = hp > 50 ? '#0f0' : (hp > 25 ? '#ff0' : '#f00');
-      var bars = Math.floor(hp / 10);
-      var i = bars;
-      while(i--) {
-        this.context.rect(x + (i * 6) - 29, y + 4, 5, 4)
-      }
-      this.context.fill();
+		var hp = this.model.get('hp');
+		this.context.beginPath();
+		this.context.fillStyle = hp > 50 ? '#0f0' : (hp > 25 ? '#ff0' : '#f00');
+		var bars = Math.floor(hp / 10);
+		var i = bars;
+		while(i--) {
+		this.context.rect(x + (i * 6) - 29, y + 4, 5, 4)
+		}
+		this.context.fill();
 
-      this.context.textAlign = 'center';
-      this.context.fillStyle = this.model.get('user').team.name == 'green' ? '#26f' : '#ff0';
-      this.context.fillText(this.model.get('user').name, x, y - 70);
+		this.context.textAlign = 'center';
+		this.context.fillStyle = this.model.get('user').team.name == 'green' ? '#26f' : '#ff0';
+		this.context.fillText(this.model.get('user').name, x, y - 70);
 
-      this.context.restore();
+		this.context.restore();
     },
     renderBottom: function() {
       var x = Math.floor(this.model.get('x') / 4) * 4;

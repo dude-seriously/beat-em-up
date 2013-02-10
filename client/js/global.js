@@ -148,8 +148,10 @@ socket.on('connect', function() {
 
       if (users[data.players[id].user].team.name == "green") {
         var my_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.dudeWalk, data.players[id].x, data.players[id].y, 58, 74, 0, 100, 3, 0, 0);
+        var my_fight_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.dudePunch, data.players[id].x, data.players[id].y, 58, 74, 0, 100, 3, 0, 1)
       } else {
         var my_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.dude2Walk, data.players[id].x, data.players[id].y, 58, 74, 0, 100, 3, 0, 0);
+        var my_fight_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.dude2Punch, data.players[id].x, data.players[id].y, 58, 74, 0, 100, 3, 0, 1)
       }
 
       PlayerModels[id]  = new BeatEmUp.PlayerModel({
@@ -166,6 +168,7 @@ socket.on('connect', function() {
       PlayerViews[id] = new BeatEmUp.PlayerView({
         model: PlayerModels[id],
         sprite: my_sprite,
+        fight_sprite: my_fight_sprite,
         context: ctx
       });
 
@@ -184,8 +187,14 @@ socket.on('connect', function() {
 
   var lastHit = new Date().getTime();
 
-  // on every ups as update
-  // have list of players
+  /* 
+
+     STATE
+
+
+     on every ups as update
+     have list of players
+     */
   socket.on('state', function(data) {
     for(var id in data.teams) {
       teams[id].data(data.teams[id]);
@@ -207,6 +216,10 @@ socket.on('connect', function() {
         hp: p.hp,
         state: p.state
       });
+
+      if (~~(data.players[id].kick) > 0) {
+        PlayerViews[id].startHitting();
+      }
 
       model.set({walking: (p.state == "walk")});
     }
@@ -231,7 +244,13 @@ socket.on('connect', function() {
   // when player spawns
   // need to add that player to world
   socket.on('player.spawn', function(data) {
-    var my_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.dudeWalk, data.x, data.y, 58, 74, 0, 100, 3, 0, 0);
+    if (users[data.user].team.name == "green") {
+      var my_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.dudeWalk, data.x, data.y, 58, 74, 0, 100, 3, 0, 0);
+      var my_fight_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.dudePunch, data.x, data.y, 58, 74, 0, 100, 3, 0, 1)
+    } else {
+      var my_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.dude2Walk, data.x, data.y, 58, 74, 0, 100, 3, 0, 0);
+      var my_fight_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.dude2Punch, data.x, data.y, 58, 74, 0, 100, 3, 0, 1)
+    }
 
     PlayerModels[data.id] = new BeatEmUp.PlayerModel({
       id: data.id,
@@ -247,6 +266,7 @@ socket.on('connect', function() {
     PlayerViews[data.id] = new BeatEmUp.PlayerView({
       model: PlayerModels[data.id],
       sprite: my_sprite,
+      fight_sprite: my_fight_sprite,
       context: ctx
     });
   });

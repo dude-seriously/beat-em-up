@@ -39,10 +39,14 @@
 		return this.animating;
 	}
 
-	BeatEmUp.Sprite.prototype.StartAnimation = function () {
+	BeatEmUp.Sprite.prototype.StartAnimation = function (callback) {
 		if (!this.animating) {
 	        this.animating = true;
 	        this.Animate();
+		}
+
+		if (typeof callback == "function") {
+			this.callback = callback;
 		}
 
 		return this;

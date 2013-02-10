@@ -13,7 +13,8 @@
 
 		dudeWalk: load_img("dude-walk"),
 		dude2Walk: load_img("dude2-walk"),
-		dude2Punch: load_img("dude2-punch")
+		dudePunch: load_img("dude-punch"),
+		dude2Punch: load_img("dude2-punch"),
 
 	}
 
