@@ -22,6 +22,7 @@ var playerCount = 0;
       this.kick = 0;
       this.hitDelay = 0;
       this.lastHit = 0;
+      this.item = false;
       //this.input = null;
     },
     update: function(world) {
@@ -69,12 +70,14 @@ var playerCount = 0;
           // hit
           this.kick = 0;
 
-          if (this.user.input) {
-            if (this.user.input.kick) {
-              if (world.time - this.lastHit > this.hitDelay) {
-                this.kick = this.user.input.kick;
-                this.lastHit = world.time;
-                this.hitDelay = 300 * this.kick;
+          if (!this.item) {
+            if (this.user.input) {
+              if (this.user.input.kick) {
+                if (world.time - this.lastHit > this.hitDelay) {
+                  this.kick = this.user.input.kick;
+                  this.lastHit = world.time;
+                  this.hitDelay = 300 * this.kick;
+                }
               }
             }
           }

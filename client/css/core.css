@@ -131,3 +131,71 @@ a {
 .windows8 {
   display: none;
 }
+
+.touch {
+  width: 1088px;
+  height: 144px;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 16px;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.touch > .hit > .button {
+  float: left;
+  width: 48px;
+  height: 48px;
+  line-height: 48px;
+  text-align: center;
+  background: #000;
+  font-family: 'pixel';
+  font-size: 32px;
+  margin-top: 48px;
+  margin-right: 8px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+
+.touch > .arrow > .button {
+  position: absolute;
+  right: 0;
+  width: 48px;
+  height: 48px;
+  line-height: 48px;
+  text-align: center;
+  background: #000;
+  font-family: 'pixel';
+  font-size: 32px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.touch > .arrow > .button[data-button="up"] {
+  top: 0;
+  right: 48px;
+}
+.touch > .arrow > .button[data-button="right"] {
+  top: 48px;
+  right: 0;
+}
+.touch > .arrow > .button[data-button="down"] {
+  top: 96px;
+  right: 48px;
+}
+.touch > .arrow > .button[data-button="left"] {
+  top: 48px;
+  right: 96px;
+}

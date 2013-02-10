@@ -214,7 +214,7 @@
         this.context.save();
 
         //this.context.globalAlpha = 0.3;
-        this.context.translate(x, y);
+        this.context.translate(x, y - 2);
         this.context.scale(1, .5);
         this.context.beginPath();
         this.context.arc(0, 0, 29, 0 , 2 * Math.PI, false);

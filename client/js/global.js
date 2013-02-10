@@ -1,3 +1,7 @@
+var canvas = document.getElementById("game");
+var ctx = canvas.getContext("2d");
+ctx.font = '14px "pixel"';
+
 var socket = io.connect();
 
 var teams = { };
@@ -47,10 +51,25 @@ function Item(x, y) {
   this.y = y;
   this.player = 0;
 }
-Item.prototype.render = function(ctx) {
-  if (this.player != 0) {
-    console.log('player')
-  } else {
+Item.prototype.renderBottom = function() {
+  if (this.player == 0) {
+    ctx.save();
+
+    //this.context.globalAlpha = 0.3;
+    ctx.translate(this.x, this.y - 2);
+    ctx.scale(1, .5);
+    ctx.beginPath();
+    ctx.arc(0, 0, 29, 0 , 2 * Math.PI, false);
+    ctx.strokeStyle = '#f60';
+    ctx.lineWidth = 4;
+    ctx.stroke();
+   // this.context.globalAlpha = 1;
+
+    ctx.restore();
+  }
+}
+Item.prototype.render = function() {
+  if (this.player == 0) {
     ctx.save();
     ctx.translate(-16, -24);
 
@@ -85,9 +104,6 @@ $('.changeName > input').keyup(function(evt) {
 
 var own = 0;
 
-var canvas = document.getElementById("game");
-var ctx = canvas.getContext("2d");
-ctx.font = '14px "pixel"';
 
 /*if () {
   $('.windows8').css('display', 'block');
@@ -97,10 +113,10 @@ ctx.font = '14px "pixel"';
 // Tablet PC 2.0
 
 var touch = 'ontouchstart' in document.documentElement;
+touch = true;
 if (/*window.navigator.userAgent.toLowerCase().indexOf('touch') ||
     window.navigator.userAgent.toLowerCase().indexOf('tablet pc 2.0')*/touch) {
 
-  $('.windows8').css('display', 'block');
 }
 
 socket.on('connect', function() {
@@ -123,30 +139,48 @@ socket.on('connect', function() {
 
     ctx.translate(32, 152);
 
-    var players = [];
+    var renderables = [];
     for(var id in PlayerViews) {
-      players.push(PlayerViews[id]);
+      renderables.push(PlayerViews[id]);
     }
-    players.sort(function(a, b) {
-      return b.model.get('y') - a.model.get('y');
+    if(item.player == 0) {
+      renderables.push(item);
+    }
+
+    renderables.sort(function(a, b) {
+      var aY = 0;
+      if (a.model) {
+        aY = a.model.get('y');
+      } else {
+        aY = a.y;
+      }
+      var bY = 0;
+      if (b.model) {
+        bY = b.model.get('y');
+      } else {
+        bY = b.y;
+      }
+      return bY - aY;
     });
 
-    var i = players.length;
+    var i = renderables.length;
     while(i--) {
-      players[i].renderBottom();
+      if (renderables[i].renderBottom) {
+        renderables[i].renderBottom();
+      }
     }
 
-    i = players.length;
+    i = renderables.length;
     while(i--) {
-      players[i].render(true);
+      renderables[i].render(true);
     }
 
-    i = players.length;
+    i = renderables.length;
     while(i--) {
-      players[i].renderTop();
+      if (renderables[i].renderTop) {
+        renderables[i].renderTop();
+      }
     }
-
-    item.render(ctx);
   }
 
   // at the beginning of match
@@ -219,7 +253,7 @@ socket.on('connect', function() {
 
   var lastHit = new Date().getTime();
 
-  /* 
+  /*
 
      STATE
 
@@ -233,6 +267,7 @@ socket.on('connect', function() {
     } else {
       item.x = data.item.x;
       item.y = data.item.y;
+      item.player = 0;
     }
 
     for(var id in data.teams) {
@@ -268,6 +303,7 @@ socket.on('connect', function() {
   // when user leaves
   // need to delete user from lists
   socket.on('user.leave', function(id) {
+    console.log(id)
     $('.user[data-id="' + id + '"]').remove();
   });
 
