@@ -99,9 +99,9 @@ var playerCount = 0;
       if (!this.dead) {
         this.dead = true;
         this.hp = 0;
+        this.emit('death');
         this.pos.delete();
         this.vec.delete();
-        this.emit('death');
         this.user = null;
       }
     },

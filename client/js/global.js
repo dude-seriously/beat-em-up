@@ -54,6 +54,7 @@ function Item(x, y) {
 
 var chicken_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.chicken, 0, 0, 42, 32, 0, 200, 3, 0, 0);
 chicken_sprite.StartAnimation();
+
 Item.prototype.renderBottom = function() {
   if (this.player == 0) {
     ctx.save();
@@ -89,6 +90,20 @@ Item.prototype.render = function() {
   }
 }
 
+
+var bodies = [ ];
+function Body(x, y, sprite) {
+  this.x = x;
+  this.y = y;
+  this.sprite = sprite;
+  bodies.push(this);
+}
+Body.prototype.render = function() {
+  ctx.save();
+  ctx.translate(-32, -32);
+  ctx.drawImage(this.sprite, this.x, this.y);
+  ctx.restore();
+}
 
 
 $('.changeNameButton').click(function() {
@@ -143,6 +158,10 @@ socket.on('connect', function() {
     }
     if(item.player == 0) {
       renderables.push(item);
+    }
+    var i = bodies.length;
+    while(i--) {
+      renderables.push(bodies[i]);
     }
 
     renderables.sort(function(a, b) {
@@ -270,7 +289,9 @@ socket.on('connect', function() {
       item.player = data.item.player;
     } else {
       if (item.player != 0) {
-        PlayerModels[item.player].set({holding: false});
+        if (PlayerModels[item.player] != undefined) {
+          PlayerModels[item.player].set({holding: false});
+        }
       }
       item.x = data.item.x;
       item.y = data.item.y;
@@ -360,6 +381,8 @@ socket.on('connect', function() {
   // when player dies
   // need to change state of player
   socket.on('player.death', function(id) {
+    new Body(PlayerModels[id].get('x'), PlayerModels[id].get('y'), PlayerModels[id].get('user').team.name == 'red' ? BeatEmUp.Images.dude2Corpse : BeatEmUp.Images.dudeCorpse);
+
     delete PlayerModels[id];
     delete PlayerViews[id];
   });

@@ -214,7 +214,7 @@
 
 		this.context.textAlign = 'center';
 		this.context.fillStyle = this.model.get('user').team.name == 'green' ? '#26f' : '#ff0';
-		this.context.fillText(this.model.get('user').name, x, y - 70);
+		this.context.fillText(this.model.get('user').name, x, y - 70 - (item.player == this.model.id ? 26 : 0));
 
 		this.context.restore();
     },
