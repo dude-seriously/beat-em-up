@@ -16,7 +16,10 @@
 		dudePunch: load_img("dude-punch"),
 		dude2Punch: load_img("dude2-punch"),
 		dudeCorpse: load_img("dude-corpse"),
-		dude2Corpse: load_img("dude2-corpse")
+		dude2Corpse: load_img("dude2-corpse"),
+		chicken: load_img("chicken"),
+		dudeHold: load_img("dude-hold"),
+		dude2Hold: load_img("dude2-hold")
 
 	}
 
