@@ -133,6 +133,7 @@ a {
 }
 
 .touch {
+  display: none;
   width: 1056px;
   height: 144px;
   position: relative;
