@@ -12,7 +12,8 @@
 	BeatEmUp.Images = {
 
 		dudeWalk: load_img("dude-walk"),
-		dude2Walk: load_img("dude2-walk")
+		dude2Walk: load_img("dude2-walk"),
+		dude2Punch: load_img("dude2-punch")
 
 	}
 
