@@ -116,8 +116,12 @@ socket.on('connect', function() {
 
     BeatEmUp.enableDebug(true);
     for(var id in data.players) {
-      var my_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.dudeWalk, data.players[id].x, data.players[id].y, 58, 74, 0, 100, 3, 0, 0);
 
+      if (users[data.players[id].user].team.name == "green") {
+        var my_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.dudeWalk, data.players[id].x, data.players[id].y, 58, 74, 0, 100, 3, 0, 0);
+      } else {
+        var my_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.dude2Walk, data.players[id].x, data.players[id].y, 58, 74, 0, 100, 3, 0, 0);
+      }
 
       PlayerModels[id]  = new BeatEmUp.PlayerModel({
         id: id,
