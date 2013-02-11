@@ -1,9 +1,9 @@
 beat-em-up
 ==========
 
-GameHack - Feb 2013
+Multiplayer Beat-Em-Up game with lobby, matches, punches and a chicken!
 
-A beat-em-up game made for GameHack Days 2013.
+Made in 24 hours hackathon at #GameHackDays - Feb 2013
 
 Installation
 ==========
