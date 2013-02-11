@@ -13,6 +13,8 @@
 		<script src="js/Player.js"></script>
 
 		<link rel="stylesheet" href="css/qunit.css">
+		
+		<title>Unit testing</title>
 	</head>
 	<body>
 		<div id="qunit"></div>
@@ -88,6 +90,8 @@
 
 					my_view.render();
 				}, interval);
+				
+				ok(true, "setting up rendering loop");
 
 			});
 		</script>
