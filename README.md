@@ -3,7 +3,7 @@ beat-em-up
 
 Multiplayer Beat-Em-Up game with lobby, matches, punches and a chicken!
 
-Made in 24 hours hackathon at #GameHackDays - Feb 2013
+Made during a 24 hours hackathon at #GameHackDays - Feb 2013
 
 Installation
 ==========
