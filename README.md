@@ -13,3 +13,21 @@ Installation
 * Go to `/server`, install express.js (`npm install express`) and socket.io (`npm install socket.io`).
 * Run the server (`node app.js`)
 * Navigate in Chrome / Firefox / IE10 to [`localhost:8080`](http://localhost:8080)
+
+
+              ,~.
+           ,-'__ `-,
+          {,-'  `. }              ,')
+         ,( a )   `-.__         ,',')~,
+        <=.) (         `-.__,==' ' ' '}
+          (   )                      /)
+           `-'\   ,                    )
+               |  \        `~.        /
+               \   `._        \      /
+                \     `._____,'    ,'
+                 `-.             ,'
+                    `-._     _,-'
+                        77jj'
+                       //_||
+                    __//--'/`          
+                  ,--'/`  '
