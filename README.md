@@ -3,9 +3,9 @@ beat-em-up
 
 Multiplayer Beat-Em-Up game with lobby, matches, punches and a chicken!
 
-Made during a 24 hours hackathon at #GameHackDays - Feb 2013
+Made during a 24 hour hackathon at #GameHackDays - Feb 2013
 
-**[Demo](http://moka.co:8080/)** - Need 4 players, ask your friends!
+**[Demo](http://moka.co:8080/)** - Requires **4** players, ask your friends to join!
 
 Installation
 ==========
