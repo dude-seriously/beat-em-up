@@ -23,7 +23,7 @@ Ideally it should be an even number so that you have two teams of equal size.
 Gameplay
 ==========
 You can hit other people with the `Z`, `X`, and `C` keys, and walk with the arrow keys (`↑`, `↓`, `←`, `→`). 
-Your teem needs to pick up the chicken (by punching it, obviously) and keep hold of it to score points. 
+Your team needs to pick up the chicken (by punching it, obviously) and keep hold of it to score points. 
 The team with the highest score wins.
 
 
