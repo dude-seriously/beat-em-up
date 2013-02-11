@@ -5,6 +5,8 @@ Multiplayer Beat-Em-Up game with lobby, matches, punches and a chicken!
 
 Made during a 24 hours hackathon at #GameHackDays - Feb 2013
 
+**[Demo](http://moka.co:8080/)** - Need 4 players, ask your friends!
+
 Installation
 ==========
 
@@ -12,7 +14,7 @@ Installation
 * Install [node.js](http://nodejs.org/).
 * Go to `/server`, install express.js (`npm install express`) and socket.io (`npm install socket.io`).
 * Run the server (`node app.js`)
-* Navigate in Chrome / Firefox / IE10 to [`localhost:8080`](http://localhost:8080)
+* Navigate in Chrome / Firefox / IE10 / iOS to [`localhost:8080`](http://localhost:8080)
 
 Configuration
 ==========
