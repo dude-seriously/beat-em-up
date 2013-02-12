@@ -53,8 +53,8 @@ var playerCount = 0;
                 this.f = -1;
               }
             }
-            this.pos[0] += this.vec[0];
-            this.pos[1] += this.vec[1] * .5;
+            this.pos[0] += this.vec[0] * dt;
+            this.pos[1] += this.vec[1] * dt * .5;
 
             if (this.pos[0] < 0) {
               this.pos[0] = 0;

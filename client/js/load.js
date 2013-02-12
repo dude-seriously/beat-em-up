@@ -9,18 +9,6 @@ var scripts = [
       'jquery'
     ]
   }, {
-    name: 'global',
-    file: '/js/global.js',
-    requires: [
-      'jquery',
-      'input',
-      'sockets',
-      'Debug',
-      'Sprite',
-      'Player',
-      'Images'
-    ]
-  }, {
     name: 'underscore',
     file: '/js/lib/underscore-min.js'
   }, {
@@ -54,6 +42,46 @@ var scripts = [
     requires: [
       'backbone',
       'Debug'
+    ]
+  }, {
+    name: 'team',
+    file: '/js/team.js',
+    requires: [
+      'jquery'
+    ]
+  }, {
+    name: 'user',
+    file: '/js/user.js',
+    requires: [
+      'jquery'
+    ]
+  }, {
+    name: 'body',
+    file: '/js/body.js',
+    requires: [
+      'jquery'
+    ]
+  }, {
+    name: 'item',
+    file: '/js/item.js',
+    requires: [
+      'jquery'
+    ]
+  }, {
+    name: 'global',
+    file: '/js/global.js',
+    requires: [
+      'jquery',
+      'input',
+      'sockets',
+      'Debug',
+      'Sprite',
+      'Player',
+      'Images',
+      'team',
+      'user',
+      'body',
+      'item'
     ]
   }
 ];

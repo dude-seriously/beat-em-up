@@ -56,6 +56,8 @@ a {
 
 #game {
   position: absolute;
+  width: 832px;
+  height: 384px;
   top: 32px;
   left: 128px;
   background: url('/images/background.png');
@@ -220,4 +222,13 @@ a {
 }
 .hidden {
   display: none;
+}
+
+.controls {
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
 }

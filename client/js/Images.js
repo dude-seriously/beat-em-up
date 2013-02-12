@@ -10,7 +10,6 @@
 	}
 
 	BeatEmUp.Images = {
-
 		dudeWalk: load_img("dude-walk"),
 		dude2Walk: load_img("dude2-walk"),
 		dudePunch: load_img("dude-punch"),
@@ -20,7 +19,6 @@
 		chicken: load_img("chicken"),
 		dudeHold: load_img("dude-hold"),
 		dude2Hold: load_img("dude2-hold")
-
 	}
 
 })(window.BeatEmUp = window.BeatEmUp || {});

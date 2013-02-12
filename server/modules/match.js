@@ -5,12 +5,14 @@ require(process.cwd() + '/modules/item');
 
 exports.init = function(io) {
 
-}
+};
 
-var ups = 10;
-var tick = 1000 / ups;
 
 (function() {
+
+  var ups  = this.ups  = 10;
+  var tick = this.tick = 1000 / ups;
+  var dt   = this.dt   = 100 / ups;
 
   var Match = this.Match = new Class({
     initialize: function() {
@@ -91,7 +93,7 @@ var tick = 1000 / ups;
             }
           }
         }
-        this.timer = setInterval(this.update.bind(this), ups);
+        this.timer = setInterval(this.update.bind(this), tick);
       }
     },
     stop: function() {

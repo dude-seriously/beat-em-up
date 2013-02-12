@@ -2,108 +2,13 @@ var canvas = document.getElementById("game");
 var ctx = canvas.getContext("2d");
 ctx.font = '14px "pixel"';
 
+ctx.mozImageSmoothingEnabled = false;
+ctx.webkitImageSmoothingEnabled = false;
+
 var socket = io.connect();
 
-var teams = { };
-function Team(data) {
-  this.id = data.id;
-  this.name = data.name;
-  this.color = data.color;
-  this.score = data.score;
-  teams[this.id] = this;
-}
-Team.prototype.data = function(data) {
-  if (data.score != this.score) {
-    this.score = data.score;
-    $('.team[data-name="' + this.name + '"] > .score').html(this.score);
-  }
-}
 
-var users = { };
-function User(data) {
-  this.id = data.id;
-  this.name = data.name;
-  this.team = data.team;
-  this.score = data.score ? data.score : 0;
-  users[this.id] = this;
-
-  $('.team[data-name="' + this.team.name + '"] > .users').append('<div class="user" data-id="' + this.id + '"><span class="name">' + this.name + '</span><span class="score">0</span></div>');
-}
-User.prototype.data = function(data) {
-  if (data.score != undefined) {
-    if (data.score != this.score) {
-      this.score = data.score;
-      $('.user[data-id="' + this.id + '"] > .score').html(this.score);
-    }
-  }
-  if (data.name != undefined) {
-    if (data.name) {
-      this.name = data.name;
-      $('.user[data-id="' + this.id + '"] > .name').html(this.name);
-    }
-  }
-}
-
-
-var item = null;
-function Item(x, y) {
-  this.x = x;
-  this.y = y;
-  this.player = 0;
-}
-
-var chicken_sprite = new BeatEmUp.Sprite(BeatEmUp.Images.chicken, 0, 0, 42, 32, 0, 200, 3, 0, 0);
-chicken_sprite.StartAnimation();
-
-Item.prototype.renderBottom = function() {
-  if (this.player == 0) {
-    ctx.save();
-
-    //this.context.globalAlpha = 0.3;
-    ctx.translate(this.x, this.y - 2);
-    ctx.scale(1, .5);
-    ctx.beginPath();
-    ctx.arc(0, 0, 29, 0 , 2 * Math.PI, false);
-    ctx.strokeStyle = '#f60';
-    ctx.lineWidth = 4;
-    ctx.stroke();
-   // this.context.globalAlpha = 1;
-
-    ctx.restore();
-  }
-}
-Item.prototype.render = function() {
-  if (this.player == 0) {
-    ctx.save();
-    // ctx.translate(-16, -24);
-
-    // ctx.beginPath();
-
-    // ctx.fillStyle = '#f00';
-    // ctx.rect(this.x, this.y, 32, 24);
-    // ctx.fill();
-
-    // ctx.restore();
-    chicken_sprite.SetLocation(this.x, this.y);
-    chicken_sprite.Draw(ctx);
-    //console.log('place')
-  }
-}
-
-
-var bodies = [ ];
-function Body(x, y, sprite) {
-  this.x = x;
-  this.y = y;
-  this.sprite = sprite;
-  bodies.push(this);
-}
-Body.prototype.render = function() {
-  ctx.save();
-  ctx.translate(-32, -32);
-  ctx.drawImage(this.sprite, this.x, this.y);
-  ctx.restore();
-}
+now = new Date().getTime();
 
 
 $('.changeNameButton').click(function() {
@@ -136,6 +41,12 @@ $('.show').click(function() {
   $(this).remove();
 })
 
+
+
+
+
+
+
 socket.on('connect', function() {
   // when in lobby
   // get updates of players in lobby and how many needed for game
@@ -147,6 +58,8 @@ socket.on('connect', function() {
   var PlayerViews = {};
 
   var GameLoop = function () {
+    now = new Date().getTime();
+
     for (var id in PlayerModels) {
       PlayerModels[id].walkToDestination();
     }
@@ -209,6 +122,8 @@ socket.on('connect', function() {
   socket.on('match', function(data) {
     $('#lobby').remove();
     $('#gameplay').css('display', 'block');
+
+    StartBlink();
 
     for(var id in data.teams) {
       var team = new Team({
@@ -335,8 +250,7 @@ socket.on('connect', function() {
   // when user leaves
   // need to delete user from lists
   socket.on('user.leave', function(id) {
-    console.log(id)
-    $('.user[data-id="' + id + '"]').remove();
+    users[id].remove();
   });
 
 
@@ -385,7 +299,12 @@ socket.on('connect', function() {
   // when player dies
   // need to change state of player
   socket.on('player.death', function(id) {
-    new Body(PlayerModels[id].get('x'), PlayerModels[id].get('y'), PlayerModels[id].get('user').team.name == 'red' ? BeatEmUp.Images.dude2Corpse : BeatEmUp.Images.dudeCorpse);
+    new Body({
+      x: PlayerModels[id].get('x'),
+      y: PlayerModels[id].get('y'),
+      f: PlayerModels[id].get('facing'),
+      sprite: PlayerModels[id].get('user').team.name == 'red' ? BeatEmUp.Images.dude2Corpse : BeatEmUp.Images.dudeCorpse
+    });
 
     delete PlayerModels[id];
     delete PlayerViews[id];
@@ -397,3 +316,15 @@ socket.on('connect', function() {
     own = id;
   });
 });
+
+var blink = 5;
+var blinkTitle = 'MATCH! Beat-Em-Up!'
+function StartBlink() {
+  if (blink > 0) {
+    blink--;
+    document.title = (blink % 2) == 1 ? blinkTitle : 'Beat-Em-Up!';
+    setTimeout(StartBlink, 500);
+  } else {
+    document.title = blinkTitle;
+  }
+}
