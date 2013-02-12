@@ -7,7 +7,7 @@ exports.init = function(io) {
   });
 }
 
-var matchSize = 2;
+var matchSize = 4;
 
 var Lobby = new Class({
   initialize: function() {
