@@ -6,7 +6,7 @@ var scripts = [
     name: 'input',
     file: '/js/input.js',
     requires: [
-      'jquery'
+      'events'
     ]
   }, {
     name: 'underscore',
@@ -44,35 +44,35 @@ var scripts = [
       'Debug'
     ]
   }, {
+    name: 'events',
+    file: '/js/events.js'
+  }, {
     name: 'team',
     file: '/js/team.js',
     requires: [
-      'jquery'
+      'jquery',
+      'events'
     ]
   }, {
     name: 'user',
     file: '/js/user.js',
     requires: [
-      'jquery'
+      'jquery',
+      'events'
     ]
   }, {
     name: 'body',
-    file: '/js/body.js',
-    requires: [
-      'jquery'
-    ]
+    file: '/js/body.js'
   }, {
     name: 'item',
-    file: '/js/item.js',
-    requires: [
-      'jquery'
-    ]
+    file: '/js/item.js'
   }, {
     name: 'global',
     file: '/js/global.js',
     requires: [
       'jquery',
       'input',
+      'events',
       'sockets',
       'Debug',
       'Sprite',

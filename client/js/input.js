@@ -1,166 +1,111 @@
 function Input() {
-  this.left = false;
-  this.right = false;
-  this.up = false;
-  this.down = false;
-  this.z = false;
-  this.x = false;
-  this.c = false;
+  events.add(this);
+
+  // game actions
+  this.v = {
+    left:     false,
+    right:    false,
+    up:       false,
+    down:     false,
+    punch:    false,
+    kick:     false,
+    uppercut: false
+  }
+
+  // keyCode assigned to game action
+  this.k = {
+    37: 'left',
+    39: 'right',
+    38: 'up',
+    40: 'down',
+    90: 'punch', // z
+    88: 'kick', // x
+    67: 'uppercut' // c
+  }
 
   var self = this;
 
   window.onkeydown = function(evt) {
-   //console.log(evt.keyCode)
-    switch(evt.keyCode) {
-      case 37:
-        if (!self.left) {
-          self.left = true;
-          $(self).trigger('change');
-        }
-        break;
-      case 39:
-        if (!self.right) {
-          self.right = true;
-          $(self).trigger('change');
-        }
-        break;
-      case 40:
-        if (!self.down) {
-          self.down = true;
-          $(self).trigger('change');
-        }
-        break;
-      case 38:
-        if (!self.up) {
-          self.up = true;
-          $(self).trigger('change');
-        }
-        break;
-      case 90:
-        if (!self.z) {
-          self.z = true;
-          $(self).trigger('change');
-        }
-        break;
-      case 88:
-        if (!self.x) {
-          self.x = true;
-          $(self).trigger('change');
-        }
-        break;
-      case 67:
-        if (!self.c) {
-          self.c = true;
-          $(self).trigger('change');
-        }
-        break;
+    var key = self.k[evt.keyCode];
+    if (key != undefined) {
+      if (!self.v[key]) {
+        self.v[key] = true;
+        self.emit('change');
+      }
     }
-  }
+  };
   window.onkeyup = function(evt) {
-    switch(evt.keyCode) {
-      case 37:
-        if (self.left) {
-          self.left = false;
-          $(self).trigger('change');
-        }
-        break;
-      case 39:
-        if (self.right) {
-          self.right = false;
-          $(self).trigger('change');
-        }
-        break;
-      case 40:
-        if (self.down) {
-          self.down = false;
-          $(self).trigger('change');
-        }
-        break;
-      case 38:
-        if (self.up) {
-          self.up = false;
-          $(self).trigger('change');
-        }
-        break;
-      case 90:
-        if (self.z) {
-          self.z = false;
-          $(self).trigger('change');
-        }
-        break;
-      case 88:
-        if (self.x) {
-          self.x = false;
-          $(self).trigger('change');
-        }
-        break;
-      case 67:
-        if (self.c) {
-          self.c = false;
-          $(self).trigger('change');
-        }
-        break;
+    var key = self.k[evt.keyCode];
+    if (key != undefined) {
+      if (self.v[key]) {
+        self.v[key] = false;
+        self.emit('change');
+      }
     }
   }
 
-  $('[data-button]').mousedown(function(evt) {
-    var key = $(this).attr('data-button');
-    if (self[key] != undefined) {
-      self[key] = true;
-      $(self).trigger('change');
-    }
-    evt.preventDefault();
-    return false;
-  });
-  $('[data-button]').mouseout(function() {
-    var key = $(this).attr('data-button');
-    if (self[key] != undefined) {
-      self[key] = false;
-      $(self).trigger('change');
-    }
-  });
+  // TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  // major rework
+  // touch input
+  var buttons = document.querySelectorAll('[data-button]');
+  var i = buttons.length;
+  while(i--) {
+    buttons[i].addEventListener('mousedown', function() {
+      var key = this.getAttribute('data-button');
+      if (self[key] != undefined && self[key] == false) {
+        self[key] = true;
+        self.emit('change');
+      }
+      return false;
+    });
+    buttons[i].addEventListener('mouseout', function() {
+      var key = this.getAttribute('data-button');
+      if (self[key] != undefined && self[key] == true) {
+        self[key] = false;
+        self.emit('change');
+      }
+      return false;
+    });
+  };
 }
+events.implement(Input);
 
 
 Input.prototype.horiz = function() {
-  return this.right - this.left;
+  return this.v.right - this.v.left;
 }
 Input.prototype.vert = function() {
-  return this.down - this.up;
+  return this.v.down - this.v.up;
 }
 
-var input = new Input();
-input.horiz();
-input.vert();
 
+// TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// games should individually create own input handler
+
+var input = new Input();
 
 
 var arrows = {
   x: 0,
   y: 0
 }
-$(input).bind('change', function() {
-  var input = { };
-  var changed = false;
+input.on('change', function() {
+  var actions = { };
   if (this.horiz() != arrows.x || this.vert() != arrows.y) {
     arrows.x = this.horiz();
     arrows.y = this.vert();
-    input['move'] = arrows;
-    changed = true;
+    actions['move'] = arrows;
   }
-  if (this.z) {
-    input['kick'] = 1;
-    changed = true;
+
+  if (this.v.punch) {
+    actions['kick'] = 1;
   }
-  if (this.x) {
-    input['kick'] = 2;
-    changed = true;
+  if (this.v.kick) {
+    actions['kick'] = 2;
   }
-  if (this.c) {
-    input['kick'] = 3;
-    changed = true;
+  if (this.v.uppercut) {
+    actions['kick'] = 3;
   }
-  if (changed) {
-    socket.emit('input', input);
-  }
+
+  socket.emit('input', actions);
 });
