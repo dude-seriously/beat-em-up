@@ -18,7 +18,7 @@ Installation
 
 Configuration
 ==========
-By default the match size is **6** players (so you need at least six people to play). 
+By default the match size is **4** players (so you need at least six people to play). 
 You can change that number in `server/modules/lobby.js` by edditing the `matchSize` variable. 
 Ideally it should be an even number so that you have two teams of equal size.
 
