@@ -1,5 +1,7 @@
-beat-em-up
+beat-em-up (GameHack version)
 ==========
+
+(This is the version of the game that has been shown during the GameHack Days 2013, with minor bug fixes and performance improvements)
 
 Multiplayer Beat-Em-Up game with lobby, matches, punches and a chicken!
 
