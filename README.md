@@ -3,7 +3,9 @@ beat-em-up
 
 Multiplayer Beat-Em-Up game with lobby, matches, punches and a chicken!
 
-Made during a 24 hour hackathon at #GameHackDays - Feb 2013
+Made during a 24 hour hackathon at #GameHackDays - Feb 2013 
+(Note: the [gamehack](https://github.com/dude-seriously/beat-em-up/tree/gamehack) branch 
+has the version showcased during the presentation at GameHack)
 
 **[Demo](http://moka.co:8080/)** - Requires **4** players, ask your friends to join!
 
