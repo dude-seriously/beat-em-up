@@ -26,9 +26,9 @@ Ideally it should be an even number so that you have two teams of equal size.
 
 Gameplay
 ==========
-You can hit other people with the `Z`, `X`, and `C` keys, and walk with the arrow keys (`↑`, `↓`, `←`, `→`). 
-Your team needs to pick up the chicken (by punching it, obviously) and keep hold of it to score points. 
-The team with the highest score wins.
+You can hit other people with the <kbd>Z</kbd>, <kbd>X</kbd>, and <kbd>C</kbd> keys, and walk with the arrow keys 
+(<kbd>↑</kbd>, <kbd>↓</kbd>, <kbd>←</kbd>, <kbd>→</kbd>). Your team needs to pick up the chicken (by punching it, 
+obviously) and keep hold of it to score points. The team with the highest score wins.
 
 
               ,~.
