@@ -7,6 +7,8 @@ Made during a 24 hour hackathon at #GameHackDays - Feb 2013
 (Note: the [gamehack](https://github.com/dude-seriously/beat-em-up/tree/gamehack) branch 
 has the version showcased during the presentation at GameHack)
 
+(This was originally implemented on an old version of Chrome)
+
 **[Demo](http://moka.co:8080/)** - Requires **4** players, ask your friends to join!
 
 Installation
